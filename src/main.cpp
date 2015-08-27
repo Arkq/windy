@@ -5,6 +5,9 @@
 //
 // This projected is licensed under the terms of the MIT license.
 
+#include "Application.h"
+
 int main(int argc, char *argv[]) {
-	return 0;
+	Application app(argc, argv);
+	return app.exec();
 }

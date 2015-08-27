@@ -16,5 +16,18 @@ unix {
 	QMAKE_CXXFLAGS += -std=c++11
 }
 
+HEADERS += \
+	src/Application.h \
+	src/PreferencesDialog.h \
+	src/Settings.h \
+	src/SystemTrayWidget.h
+
 SOURCES += \
+	src/Application.cpp \
+	src/PreferencesDialog.cpp \
+	src/Settings.cpp \
+	src/SystemTrayWidget.cpp \
 	src/main.cpp
+
+FORMS += \
+	src/PreferencesDialog.ui

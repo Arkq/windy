@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>PreferencesDialog</class>
+ <widget class="QDialog" name="PreferencesDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Preferences</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabGeneral">
+      <attribute name="title">
+       <string>General</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="labelUpdateInterval">
+         <property name="text">
+          <string>Update interval:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="spinBoxUpdateInterval">
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <property name="suffix">
+          <string> min</string>
+         </property>
+         <property name="minimum">
+          <number>5</number>
+         </property>
+         <property name="maximum">
+          <number>1440</number>
+         </property>
+         <property name="singleStep">
+          <number>30</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QGroupBox" name="groupUnits">
+         <property name="title">
+          <string>Units:</string>
+         </property>
+         <layout class="QFormLayout" name="formLayoutUnits">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelTemp">
+            <property name="text">
+             <string>Temperature:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QWidget" name="groupTemp" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayoutTemp">
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QRadioButton" name="radioButtonTempC">
+               <property name="text">
+                <string>°C</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButtonTempF">
+               <property name="text">
+                <string>°F</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButtonTempK">
+               <property name="text">
+                <string>K</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="labelWind">
+            <property name="text">
+             <string>Wind:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QWidget" name="groupWind" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayoutWind">
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QRadioButton" name="radioButtonWindKMH">
+               <property name="text">
+                <string>km/h</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButtonWindMPH">
+               <property name="text">
+                <string>MpH</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButtonWindMS">
+               <property name="text">
+                <string>m/s</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="labelPress">
+            <property name="text">
+             <string>Pressure:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QWidget" name="groupPress" native="true">
+            <layout class="QHBoxLayout" name="horizontalLayoutPress">
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QRadioButton" name="radioButtonPressHPA">
+               <property name="text">
+                <string>hPa</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButtonPressPSI">
+               <property name="text">
+                <string>psi</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="radioButtonPressMMHG">
+               <property name="text">
+                <string>mmHg</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabServices">
+      <attribute name="title">
+       <string>Services</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

@@ -18,26 +18,41 @@ class Settings : public QObject {
 public:
 	explicit Settings(QObject *parent = 0);
 
-	enum UnitPressure {
+	enum class WeatherService {
+		Undefined = 0,
+		YahooWeather,
+		WeatherUnderground,
+	};
+
+	enum class UnitPressure {
 		Hectopascal,
 		PoundPerSquareInch,
 		MillimeterOfMercury,
 	};
 
-	enum UnitTemperature {
+	enum class UnitTemperature {
 		Celsius,
 		Fahrenheit,
 		Kelvin,
 	};
 
-	enum UnitWind {
+	enum class UnitWind {
 		KilometerPerHour,
 		MilePerHour,
 		MeterPerSecond,
 	};
 
-	int getUpdateInterval() const { return m_update_interval; }
-	void setUpdateInterval(int value) { m_update_interval = value; }
+	int getDataUpdateInterval() const { return m_data_update_interval; }
+	void setDataUpdateInterval(int value) { m_data_update_interval = value; }
+	WeatherService getDataService() const { return m_data_service; }
+	void setDataService(WeatherService value) { m_data_service = value; }
+
+	const QString &getYahooApiKey() const { return m_yahoo_api_key; }
+	void setYahooApiKey(const QString &value) { m_yahoo_api_key = value; }
+	const QString &getWUndergroundApiKey() const { return m_wu_api_key; }
+	void setWUndergroundApiKey(const QString &value) { m_wu_api_key = value; }
+	const QString &getWUndergroundLocation() const { return m_wu_location; }
+	void setWUndergroundLocation(const QString &value) { m_wu_location = value; }
 
 	UnitPressure getUnitPressure() const { return m_unit_pressure; }
 	void setUnitPressure(UnitPressure value) { m_unit_pressure = value; }
@@ -50,7 +65,13 @@ public:
 	void save();
 
 private:
-	int m_update_interval;
+
+	int m_data_update_interval;
+	WeatherService m_data_service;
+
+	QString m_yahoo_api_key;
+	QString m_wu_api_key;
+	QString m_wu_location;
 
 	UnitPressure m_unit_pressure;
 	UnitTemperature m_unit_temperature;
@@ -58,6 +79,7 @@ private:
 
 };
 
+Q_DECLARE_METATYPE(Settings::WeatherService)
 Q_DECLARE_METATYPE(Settings::UnitPressure)
 Q_DECLARE_METATYPE(Settings::UnitTemperature)
 Q_DECLARE_METATYPE(Settings::UnitWind)

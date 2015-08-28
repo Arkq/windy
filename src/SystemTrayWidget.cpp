@@ -33,47 +33,47 @@ void SystemTrayWidget::setIcon(IconType type) {
 	QIcon icon;
 
 	switch (type) {
-	case Clear:
+	case IconType::Clear:
 		icons << "weather-clear-symbolic"
 			<< "weather-clear";
 		break;
-	case ClearNight:
+	case IconType::ClearNight:
 		icons << "weather-clear-night-symbolic"
 			<< "weather-night-clear";
 		break;
-	case FewClouds:
+	case IconType::FewClouds:
 		icons << "weather-few-clouds-symbolic"
 			<< "weather-few-clouds";
 		break;
-	case FewCloudsNight:
+	case IconType::FewCloudsNight:
 		icons << "weather-few-clouds-night-symbolic"
 			<< "weather-few-clouds-night";
 		break;
-	case Overcast:
+	case IconType::Overcast:
 		icons << "weather-overcast-symbolic"
 			<< "weather-overcast";
 		break;
-	case Showers:
+	case IconType::Showers:
 		icons << "weather-showers-symbolic"
 			<< "weather-showers";
 		break;
-	case ShowersScattered:
+	case IconType::ShowersScattered:
 		icons << "weather-showers-scattered-symbolic"
 			<< "weather-showers-scattered";
 		break;
-	case Fog:
+	case IconType::Fog:
 		icons << "weather-fog-symbolic"
 			<< "weather-fog";
 		break;
-	case Snow:
+	case IconType::Snow:
 		icons << "weather-snow-symbolic"
 			<< "weather-snow";
 		break;
-	case Storm:
+	case IconType::Storm:
 		icons << "weather-storm-symbolic"
 			<< "weather-storm";
 		break;
-	case SevereAlert:
+	case IconType::SevereAlert:
 		icons << "weather-severe-alert-symbolic"
 			<< "weather-severe-alert";
 		break;

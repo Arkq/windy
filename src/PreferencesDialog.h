@@ -28,6 +28,7 @@ public:
 private slots:
 	virtual void loadSettings();
 	virtual void saveSettings();
+	virtual void maintainServices();
 
 private:
 	QScopedPointer<Ui::PreferencesDialog> m_ui;

@@ -18,6 +18,11 @@ PreferencesDialog::PreferencesDialog(Settings *settings, QWidget *parent) :
 
 	loadSettings();
 
+	// weather services are mutually exclusive, these connections will ensure,
+	// that this paradigm is fulfilled by our GUI widgets
+	connect(m_ui->groupYahoo, SIGNAL(toggled(bool)), SLOT(maintainServices()));
+	connect(m_ui->groupWUnd, SIGNAL(toggled(bool)), SLOT(maintainServices()));
+
 	connect(m_ui->buttonBox, SIGNAL(accepted()), SLOT(saveSettings()));
 	connect(m_ui->buttonBox, SIGNAL(rejected()), SLOT(close()));
 
@@ -28,7 +33,13 @@ PreferencesDialog::~PreferencesDialog() {
 
 void PreferencesDialog::loadSettings() {
 
-	m_ui->spinBoxUpdateInterval->setValue(m_settings->getUpdateInterval());
+	m_ui->spinBoxUpdateInterval->setValue(m_settings->getDataUpdateInterval());
+
+	// enable selected service
+	maintainServices();
+
+	m_ui->lineEditWUndKey->setText(m_settings->getWUndergroundApiKey());
+	m_ui->lineEditWUndLocation->setText(m_settings->getWUndergroundLocation());
 
 	switch (m_settings->getUnitPressure()) {
 	case Settings::UnitPressure::Hectopascal:
@@ -70,7 +81,17 @@ void PreferencesDialog::loadSettings() {
 
 void PreferencesDialog::saveSettings() {
 
-	m_settings->setUpdateInterval(m_ui->spinBoxUpdateInterval->value());
+	m_settings->setDataUpdateInterval(m_ui->spinBoxUpdateInterval->value());
+
+	if (m_ui->groupYahoo->isChecked())
+		m_settings->setDataService(Settings::WeatherService::YahooWeather);
+	else if (m_ui->groupWUnd->isChecked())
+		m_settings->setDataService(Settings::WeatherService::WeatherUnderground);
+	else
+		m_settings->setDataService(Settings::WeatherService::Undefined);
+
+	m_settings->setWUndergroundApiKey(m_ui->lineEditWUndKey->text());
+	m_settings->setWUndergroundLocation(m_ui->lineEditWUndLocation->text());
 
 	if (m_ui->radioButtonPressHPA->isChecked())
 		m_settings->setUnitPressure(Settings::UnitPressure::Hectopascal);
@@ -96,4 +117,33 @@ void PreferencesDialog::saveSettings() {
 	m_settings->save();
 
 	close();
+}
+
+void PreferencesDialog::maintainServices() {
+
+	QGroupBox *group = qobject_cast<QGroupBox *>(sender());
+
+	if (group == nullptr) {
+		switch (m_settings->getDataService()) {
+		case Settings::WeatherService::Undefined:
+			m_ui->groupYahoo->setChecked(false);
+			m_ui->groupWUnd->setChecked(false);
+			break;
+		case Settings::WeatherService::YahooWeather:
+			m_ui->groupYahoo->setChecked(true);
+			m_ui->groupWUnd->setChecked(false);
+			break;
+		case Settings::WeatherService::WeatherUnderground:
+			m_ui->groupYahoo->setChecked(false);
+			m_ui->groupWUnd->setChecked(true);
+			break;
+		}
+	}
+	else if (group == m_ui->groupYahoo && group->isChecked()) {
+		m_ui->groupWUnd->setChecked(false);
+	}
+	else if (group == m_ui->groupWUnd && group->isChecked()) {
+		m_ui->groupYahoo->setChecked(false);
+	}
+
 }

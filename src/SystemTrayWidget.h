@@ -19,7 +19,7 @@ class SystemTrayWidget : public QObject {
 public:
 	explicit SystemTrayWidget(QObject *parent = 0);
 
-	enum IconType {
+	enum class IconType {
 		Clear,
 		ClearNight,
 		FewClouds,

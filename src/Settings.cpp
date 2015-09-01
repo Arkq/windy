@@ -16,7 +16,7 @@ Settings::Settings(QObject *parent) :
 		m_wu_location("autoip"),
 		m_unit_pressure(UnitPressure::Hectopascal),
 		m_unit_temperature(UnitTemperature::Celsius),
-		m_unit_wind(UnitWind::KilometerPerHour) {
+		m_unit_wind_speed(UnitWindSpeed::KilometerPerHour) {
 }
 
 void Settings::load() {
@@ -34,7 +34,7 @@ void Settings::load() {
 	settings.beginGroup("Units");
 	m_unit_pressure = static_cast<UnitPressure>(settings.value("Pressure", static_cast<int>(m_unit_pressure)).toInt());
 	m_unit_temperature = static_cast<UnitTemperature>(settings.value("Temperature", static_cast<int>(m_unit_temperature)).toInt());
-	m_unit_wind = static_cast<UnitWind>(settings.value("Wind", static_cast<int>(m_unit_wind)).toInt());
+	m_unit_wind_speed = static_cast<UnitWindSpeed>(settings.value("WindSpeed", static_cast<int>(m_unit_wind_speed)).toInt());
 	settings.endGroup();
 
 }
@@ -54,7 +54,7 @@ void Settings::save() {
 	settings.beginGroup("Units");
 	settings.setValue("Pressure", static_cast<int>(m_unit_pressure));
 	settings.setValue("Temperature", static_cast<int>(m_unit_temperature));
-	settings.setValue("Wind", static_cast<int>(m_unit_wind));
+	settings.setValue("WindSpeed", static_cast<int>(m_unit_wind_speed));
 	settings.endGroup();
 
 }

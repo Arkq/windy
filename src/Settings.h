@@ -36,7 +36,7 @@ public:
 		Kelvin,
 	};
 
-	enum class UnitWind {
+	enum class UnitWindSpeed {
 		KilometerPerHour,
 		MilePerHour,
 		MeterPerSecond,
@@ -58,8 +58,8 @@ public:
 	void setUnitPressure(UnitPressure value) { m_unit_pressure = value; }
 	UnitTemperature getUnitTemperature() const { return m_unit_temperature; }
 	void setUnitTemperature(UnitTemperature value) { m_unit_temperature = value; }
-	UnitWind getUnitWind() const { return m_unit_wind; }
-	void setUnitWind(UnitWind value) { m_unit_wind = value; }
+	UnitWindSpeed getUnitWindSpeed() const { return m_unit_wind_speed; }
+	void setUnitWindSpeed(UnitWindSpeed value) { m_unit_wind_speed = value; }
 
 	void load();
 	void save();
@@ -75,13 +75,13 @@ private:
 
 	UnitPressure m_unit_pressure;
 	UnitTemperature m_unit_temperature;
-	UnitWind m_unit_wind;
+	UnitWindSpeed m_unit_wind_speed;
 
 };
 
 Q_DECLARE_METATYPE(Settings::WeatherService)
 Q_DECLARE_METATYPE(Settings::UnitPressure)
 Q_DECLARE_METATYPE(Settings::UnitTemperature)
-Q_DECLARE_METATYPE(Settings::UnitWind)
+Q_DECLARE_METATYPE(Settings::UnitWindSpeed)
 
 #endif

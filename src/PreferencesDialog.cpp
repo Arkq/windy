@@ -65,14 +65,14 @@ void PreferencesDialog::loadSettings() {
 		break;
 	}
 
-	switch (m_settings->getUnitWind()) {
-	case Settings::UnitWind::KilometerPerHour:
+	switch (m_settings->getUnitWindSpeed()) {
+	case Settings::UnitWindSpeed::KilometerPerHour:
 		m_ui->radioButtonWindKMH->setChecked(true);
 		break;
-	case Settings::UnitWind::MilePerHour:
+	case Settings::UnitWindSpeed::MilePerHour:
 		m_ui->radioButtonWindMPH->setChecked(true);
 		break;
-	case Settings::UnitWind::MeterPerSecond:
+	case Settings::UnitWindSpeed::MeterPerSecond:
 		m_ui->radioButtonWindMS->setChecked(true);
 		break;
 	}
@@ -108,11 +108,11 @@ void PreferencesDialog::saveSettings() {
 		m_settings->setUnitTemperature(Settings::UnitTemperature::Kelvin);
 
 	if (m_ui->radioButtonWindKMH->isChecked())
-		m_settings->setUnitWind(Settings::UnitWind::KilometerPerHour);
+		m_settings->setUnitWindSpeed(Settings::UnitWindSpeed::KilometerPerHour);
 	else if (m_ui->radioButtonWindMPH->isChecked())
-		m_settings->setUnitWind(Settings::UnitWind::MilePerHour);
+		m_settings->setUnitWindSpeed(Settings::UnitWindSpeed::MilePerHour);
 	else if (m_ui->radioButtonWindMS->isChecked())
-		m_settings->setUnitWind(Settings::UnitWind::MeterPerSecond);
+		m_settings->setUnitWindSpeed(Settings::UnitWindSpeed::MeterPerSecond);
 
 	emit accepted();
 	close();

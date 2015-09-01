@@ -12,6 +12,8 @@
 #include <QMenu>
 #include <QSystemTrayIcon>
 
+#include "WeatherService.h"
+
 
 class SystemTrayWidget : public QObject {
 	Q_OBJECT
@@ -33,20 +35,26 @@ public:
 		SevereAlert,
 	};
 
-	void setIcon(IconType type);
-
-	// menu action accessors for the convenience's sake
-	const QAction *getActionRefresh() const { return &m_action_refresh; }
-	const QAction *getActionPreferences() const { return &m_action_preferences; }
-	const QAction *getActionAbout() const { return &m_action_about; }
-	const QAction *getActionQuit() const { return &m_action_quit; }
+	enum class MenuAction {
+		Refresh,
+		Preferences,
+		About,
+		Quit,
+	};
 
 public slots:
-	virtual void showIcon();
+	void setIcon(IconType type);
+	void showIcon(bool show = true);
+	void updateConditions(const WeatherConditions &conditions);
+
+private slots:
+	void dispatchMenuAction();
+
+signals:
+	void menuActionTriggered(SystemTrayWidget::MenuAction action);
 
 private:
 	QSystemTrayIcon m_tray_icon;
-
 	QMenu m_context_menu;
 	QAction m_action_refresh;
 	QAction m_action_preferences;

@@ -114,9 +114,9 @@ void PreferencesDialog::saveSettings() {
 	else if (m_ui->radioButtonWindMS->isChecked())
 		m_settings->setUnitWind(Settings::UnitWind::MeterPerSecond);
 
-	m_settings->save();
-
+	emit accepted();
 	close();
+
 }
 
 void PreferencesDialog::maintainServices() {

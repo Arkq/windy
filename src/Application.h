@@ -12,6 +12,7 @@
 
 #include "Settings.h"
 #include "SystemTrayWidget.h"
+#include "WeatherService.h"
 
 
 class Application : public QApplication {
@@ -21,11 +22,22 @@ public:
 	Application(int &argc, char **argv);
 
 public slots:
-	virtual void showPreferencesDialog();
+	void updateWeatherConditions();
+	void showPreferencesDialog();
+
+protected:
+	void setupWeatherService();
+	void timerEvent(QTimerEvent *event);
+
+private slots:
+	void dispatchMenuAction(SystemTrayWidget::MenuAction action);
+	void saveSettings();
 
 private:
 	Settings m_settings;
 	SystemTrayWidget m_tray_widget;
+	WeatherService *m_service;
+	int m_timer_id;
 
 };
 

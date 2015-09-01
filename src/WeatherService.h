@@ -17,6 +17,17 @@
 struct WeatherConditions {
 
 	enum class WeatherIcon {
+		Clear,
+		ClearNight,
+		FewClouds,
+		FewCloudsNight,
+		Overcast,
+		Showers,
+		ShowersScattered,
+		Fog,
+		Snow,
+		Storm,
+		SevereAlert,
 	};
 
 	QString stationID;

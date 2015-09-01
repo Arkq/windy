@@ -30,53 +30,60 @@ SystemTrayWidget::SystemTrayWidget(QObject *parent) :
 
 }
 
-void SystemTrayWidget::setIcon(IconType type) {
+void SystemTrayWidget::showIcon(bool show) {
+	m_tray_icon.setVisible(show);
+}
+
+void SystemTrayWidget::updateConditions(const WeatherConditions &conditions) {
+	m_tray_icon.setToolTip("<b>LOL</b><br/>Wiadomosc!");
+}
+
+void SystemTrayWidget::updateIcon(WeatherConditions::WeatherIcon icon) {
 
 	QStringList icons;
-	QIcon icon;
 
-	switch (type) {
-	case IconType::Clear:
+	switch (icon) {
+	case WeatherConditions::WeatherIcon::Clear:
 		icons << "weather-clear-symbolic";
 		icons << "weather-clear";
 		break;
-	case IconType::ClearNight:
+	case WeatherConditions::WeatherIcon::ClearNight:
 		icons << "weather-clear-night-symbolic";
 		icons << "weather-night-clear";
 		break;
-	case IconType::FewClouds:
+	case WeatherConditions::WeatherIcon::FewClouds:
 		icons << "weather-few-clouds-symbolic";
 		icons << "weather-few-clouds";
 		break;
-	case IconType::FewCloudsNight:
+	case WeatherConditions::WeatherIcon::FewCloudsNight:
 		icons << "weather-few-clouds-night-symbolic";
 		icons << "weather-few-clouds-night";
 		break;
-	case IconType::Overcast:
+	case WeatherConditions::WeatherIcon::Overcast:
 		icons << "weather-overcast-symbolic";
 		icons << "weather-overcast";
 		break;
-	case IconType::Showers:
+	case WeatherConditions::WeatherIcon::Showers:
 		icons << "weather-showers-symbolic";
 		icons << "weather-showers";
 		break;
-	case IconType::ShowersScattered:
+	case WeatherConditions::WeatherIcon::ShowersScattered:
 		icons << "weather-showers-scattered-symbolic";
 		icons << "weather-showers-scattered";
 		break;
-	case IconType::Fog:
+	case WeatherConditions::WeatherIcon::Fog:
 		icons << "weather-fog-symbolic";
 		icons << "weather-fog";
 		break;
-	case IconType::Snow:
+	case WeatherConditions::WeatherIcon::Snow:
 		icons << "weather-snow-symbolic";
 		icons << "weather-snow";
 		break;
-	case IconType::Storm:
+	case WeatherConditions::WeatherIcon::Storm:
 		icons << "weather-storm-symbolic";
 		icons << "weather-storm";
 		break;
-	case IconType::SevereAlert:
+	case WeatherConditions::WeatherIcon::SevereAlert:
 		icons << "weather-severe-alert-symbolic";
 		icons << "weather-severe-alert";
 		break;
@@ -84,7 +91,7 @@ void SystemTrayWidget::setIcon(IconType type) {
 
 	// iterate over icon candidates and set the first one which is available
 	for (QStringList::ConstIterator it = icons.begin(); it != icons.end(); it++) {
-		icon = QIcon::fromTheme(*it);
+		QIcon icon(QIcon::fromTheme(*it));
 		if (!icon.isNull()) {
 			m_tray_icon.setIcon(icon);
 			return;
@@ -92,14 +99,6 @@ void SystemTrayWidget::setIcon(IconType type) {
 	}
 
 	qWarning() << "Weather status icon not found:" << icons;
-}
-
-void SystemTrayWidget::showIcon(bool show) {
-	m_tray_icon.setVisible(show);
-}
-
-void SystemTrayWidget::updateConditions(const WeatherConditions &conditions) {
-	m_tray_icon.setToolTip("<b>LOL</b><br/>Wiadomosc!");
 }
 
 void SystemTrayWidget::dispatchMenuAction() {

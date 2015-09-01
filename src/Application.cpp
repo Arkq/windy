@@ -31,7 +31,7 @@ Application::Application(int &argc, char **argv) :
 	connect(&m_tray_widget, SIGNAL(menuActionTriggered(SystemTrayWidget::MenuAction)),
 			this, SLOT(dispatchMenuAction(SystemTrayWidget::MenuAction)));
 
-	m_tray_widget.setIcon(SystemTrayWidget::IconType::Clear);
+	m_tray_widget.updateIcon(WeatherConditions::WeatherIcon::Clear);
 	m_tray_widget.showIcon();
 
 	// update data upon application start

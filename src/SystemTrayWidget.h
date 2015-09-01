@@ -21,20 +21,6 @@ class SystemTrayWidget : public QObject {
 public:
 	explicit SystemTrayWidget(QObject *parent = 0);
 
-	enum class IconType {
-		Clear,
-		ClearNight,
-		FewClouds,
-		FewCloudsNight,
-		Overcast,
-		Showers,
-		ShowersScattered,
-		Fog,
-		Snow,
-		Storm,
-		SevereAlert,
-	};
-
 	enum class MenuAction {
 		Refresh,
 		Preferences,
@@ -43,9 +29,9 @@ public:
 	};
 
 public slots:
-	void setIcon(IconType type);
 	void showIcon(bool show = true);
 	void updateConditions(const WeatherConditions &conditions);
+	void updateIcon(WeatherConditions::WeatherIcon icon);
 
 private slots:
 	void dispatchMenuAction();

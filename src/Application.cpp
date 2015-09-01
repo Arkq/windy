@@ -25,6 +25,7 @@ Application::Application(int &argc, char **argv) :
 
 	// setup weather service engine according to the user preferences
 	setupWeatherService();
+	setupUpdateTimer();
 
 	// handle menu events from the tray icon widget
 	connect(&m_tray_widget, SIGNAL(menuActionTriggered(SystemTrayWidget::MenuAction)),
@@ -54,9 +55,6 @@ void Application::setupWeatherService() {
 	// remove previously initialized service handler
 	delete m_service;
 
-	if (m_timer_id)
-		killTimer(m_timer_id);
-
 	switch (m_settings.getDataService()) {
 	case Settings::WeatherService::YahooWeather:
 		break;
@@ -70,17 +68,22 @@ void Application::setupWeatherService() {
 	}
 
 	if (m_service) {
-
 		// data update is done asynchronously (GUI responsiveness is a primary
 		// objective), so we need to listen for the update signal
 		connect(m_service, SIGNAL(currentConditions(const WeatherConditions &)),
 				&m_tray_widget, SLOT(updateConditions(const WeatherConditions &)));
-
-		// theoretically it is possible to disable automatic updates
-		if (m_settings.getDataUpdateInterval() > 0)
-			m_timer_id = startTimer(m_settings.getDataUpdateInterval() * 60000);
-
 	}
+
+}
+
+void Application::setupUpdateTimer() {
+
+	if (m_timer_id)
+		killTimer(m_timer_id);
+
+	// theoretically it is possible to disable automatic updates
+	if (m_settings.getDataUpdateInterval() > 0)
+		m_timer_id = startTimer(m_settings.getDataUpdateInterval() * 60000);
 
 }
 
@@ -93,6 +96,8 @@ void Application::dispatchMenuAction(SystemTrayWidget::MenuAction action) {
 	switch (action) {
 	case SystemTrayWidget::MenuAction::Refresh:
 		updateWeatherConditions();
+		// reinitialize timer event
+		setupUpdateTimer();
 		break;
 	case SystemTrayWidget::MenuAction::Preferences:
 		showPreferencesDialog();
@@ -108,5 +113,6 @@ void Application::dispatchMenuAction(SystemTrayWidget::MenuAction action) {
 
 void Application::saveSettings() {
 	setupWeatherService();
+	setupUpdateTimer();
 	m_settings.save();
 }

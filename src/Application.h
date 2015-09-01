@@ -27,6 +27,7 @@ public slots:
 
 protected:
 	void setupWeatherService();
+	void setupUpdateTimer();
 	void timerEvent(QTimerEvent *event);
 
 private slots:

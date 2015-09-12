@@ -83,7 +83,7 @@ void Application::setupUpdateTimer() {
 	if (m_timer_id)
 		killTimer(m_timer_id);
 
-	// theoretically it is possible to disable automatic updates
+	// one can disable automatic updates if it is an inconvenience
 	if (m_settings.getDataUpdateInterval() > 0)
 		m_timer_id = startTimer(m_settings.getDataUpdateInterval() * 60000);
 

@@ -34,8 +34,13 @@ bool ServiceWUnderground::fetchCurrentConditions() {
 
 void ServiceWUnderground::dispatchCurrentConditions() {
 
-	// initialize condition structure with zeroed values
-	WeatherConditions conditions = {};
+	// initialize condition structure with "zeroed" values
+	WeatherConditions conditions = {
+		"", "", 0, 0, 0,
+		QDateTime::currentDateTime(),
+		WeatherConditions::WeatherIcon::Clear,
+		-1, -1, -1, -1, -1, -1, -1, -1, -1
+	};
 
 	QXmlStreamReader xml(qobject_cast<QNetworkReply *>(sender()));
 
@@ -56,11 +61,11 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 						else if (xml.name() == "longitude")
 							conditions.stationLongitude = xml.readElementText().toFloat();
 						else if (xml.name() == "elevation")
-							conditions.stationElevation = xml.readElementText().split(" ")[0].toFloat() / 3.2808;
+							conditions.stationElevation = xml.readElementText().remove("ft").toFloat() / 3.2808;
 					}
 			}
 			else if (xml.name() == "temp_c")
-				conditions.temperature = xml.readElementText().toFloat() + 274.15;
+				conditions.temperature = xml.readElementText().toFloat() + 273.15;
 			else if (xml.name() == "pressure_mb")
 				conditions.pressure = xml.readElementText().toFloat() * 100;
 			else if (xml.name() == "wind_kph")
@@ -68,17 +73,45 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 			else if (xml.name() == "wind_gust_kph")
 				conditions.windGustSpeed = xml.readElementText().toFloat() * 10 / 36;
 			else if (xml.name() == "wind_degrees")
-				conditions.windDirection = xml.readElementText().toFloat();
+				conditions.windDirection = 360 - xml.readElementText().toFloat();
 			else if (xml.name() == "windchill_c" || xml.name() == "feelslike_c") {
-				if (!conditions.windChill)
-					conditions.windChill = xml.readElementText().toFloat() + 274.15;
+				QString tmp(xml.readElementText());
+				if (tmp != "NA" && conditions.windChill == -1)
+					conditions.windChill = tmp.toFloat() + 273.15;
 			}
 			else if (xml.name() == "relative_humidity")
-				conditions.humidity = xml.readElementText().toFloat();
+				conditions.humidity = xml.readElementText().remove("%").toFloat();
 			else if (xml.name() == "dewpoint_c")
-				conditions.dewPoint = xml.readElementText().toFloat() + 274.15;
-			else if (xml.name() == "visibility_km")
-				conditions.visibility = xml.readElementText().toFloat() * 1000;
+				conditions.dewPoint = xml.readElementText().toFloat() + 273.15;
+			else if (xml.name() == "visibility_km") {
+				QString tmp(xml.readElementText());
+				if (tmp != "N/A")
+					conditions.visibility = tmp.toFloat() * 1000;
+			}
+			else if (xml.name() == "icon_url") {
+
+				QString icon = xml.readElementText().section('/', -1).section('.', 0, 0);
+				bool nighttime = icon.startsWith("nt_");
+				icon = icon.mid(3);
+
+				if (icon == "clear" || icon == "sunny")
+					conditions.icon = nighttime ? WeatherConditions::WeatherIcon::ClearNight : WeatherConditions::WeatherIcon::Clear;
+				else if (icon == "partlycloudy" || icon == "mostlysunny" || icon == "chanceflurries")
+					conditions.icon = nighttime ? WeatherConditions::WeatherIcon::FewCloudsNight : WeatherConditions::WeatherIcon::FewClouds;
+				else if (icon == "cloudy" || icon == "mostlycloudy" || icon == "partlysunny" || icon == "chancesnow")
+					conditions.icon = WeatherConditions::WeatherIcon::Overcast;
+				else if (icon == "rain")
+					conditions.icon = WeatherConditions::WeatherIcon::Showers;
+				else if (icon == "chancerain" || icon == "chancesleet")
+					conditions.icon = WeatherConditions::WeatherIcon::ShowersScattered;
+				else if (icon == "fog" || icon == "hazy")
+					conditions.icon = WeatherConditions::WeatherIcon::Fog;
+				else if (icon == "snow" || icon == "flurries" || icon == "sleet")
+					conditions.icon = WeatherConditions::WeatherIcon::Snow;
+				else if (icon == "tstorms" || icon == "chancetstorms")
+					conditions.icon = WeatherConditions::WeatherIcon::Storm;
+
+			}
 
 		}
 

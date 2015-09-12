@@ -12,6 +12,15 @@
 
 
 class ServiceYahooWeather : public WeatherService {
+	Q_OBJECT
+
+public:
+	explicit ServiceYahooWeather(QObject *parent = 0);
+
+public slots:
+	virtual bool fetchCurrentConditions() { return false; }
+	virtual bool fetchForecastConditions() { return false; }
+	virtual bool fetchLocationAutocomplete(const QString &location) { return false; }
 
 };
 

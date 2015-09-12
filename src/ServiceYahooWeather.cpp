@@ -6,3 +6,9 @@
 // This projected is licensed under the terms of the MIT license.
 
 #include "ServiceYahooWeather.h"
+
+
+ServiceYahooWeather::ServiceYahooWeather(QObject *parent) :
+		WeatherService(parent) {
+
+}

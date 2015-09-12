@@ -14,6 +14,7 @@
 
 Application::Application(int &argc, char **argv) :
 		QApplication(argc, argv),
+		m_tray_widget(&m_settings),
 		m_service(nullptr),
 		m_timer_id(0) {
 
@@ -57,6 +58,7 @@ void Application::setupWeatherService() {
 
 	switch (m_settings.getDataService()) {
 	case Settings::WeatherService::YahooWeather:
+		m_service = new ServiceYahooWeather(this);
 		break;
 	case Settings::WeatherService::WeatherUnderground:
 		m_service = new ServiceWUnderground(this);

@@ -40,11 +40,14 @@ struct WeatherConditions {
 
 	WeatherIcon icon;
 
+	// NOTE: If any of these attributes is set to -1 (invalid value from the
+	// physical point of view), it will mean, that the data is not available.
+
 	float temperature;   // Kelvin
 	float pressure;      // Pascal
 	float windSpeed;     // Meter per second
 	float windGustSpeed; // Meter per second
-	float windDirection; // Degrees
+	float windDirection; // Degrees (counterclockwise starting from north)
 	float windChill;     // Kelvin
 	float humidity;      // Percent
 	float dewPoint;      // Kelvin
@@ -89,6 +92,7 @@ inline void dumpWeatherConditions(const WeatherConditions &conditions) {
 	qDebug() << "longitude:" << conditions.stationLongitude;
 	qDebug() << "elevation:" << conditions.stationElevation << "m";
 	qDebug() << "time:" << conditions.observationTime.toString();
+	qDebug() << "icon:" << static_cast<int>(conditions.icon);
 	qDebug() << "temperature:" << conditions.temperature << "K";
 	qDebug() << "pressure:" << conditions.pressure << "Pa";
 	qDebug() << "wind:" << conditions.windSpeed << "m/s";

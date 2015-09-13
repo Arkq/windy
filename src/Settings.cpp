@@ -13,7 +13,6 @@
 Settings::Settings(QObject *parent) :
 		QObject(parent),
 		m_data_update_interval(60),
-		m_wu_location("autoip"),
 		m_unit_pressure(UnitPressure::Hectopascal),
 		m_unit_temperature(UnitTemperature::Celsius),
 		m_unit_wind_speed(UnitWindSpeed::KilometerPerHour) {

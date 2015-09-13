@@ -23,11 +23,17 @@ bool ServiceWUnderground::fetchCurrentConditions() {
 	if (getApiKey().isEmpty())
 		return false;
 
-	QUrl url("http://api.wunderground.com/api/" + getApiKey() + "/conditions/q/" + getLocation() + ".xml");
+	QString location(getLocation());
+
+	// fall-back to the automatic detection if location is not provided
+	if (location.isEmpty())
+		location = "autoip";
+
+	QUrl url("http://api.wunderground.com/api/" + getApiKey() + "/conditions/q/" + location + ".xml");
 	QNetworkReply *reply = m_network_manager.get(QNetworkRequest(url));
 	connect(reply, SIGNAL(readyRead()), SLOT(dispatchCurrentConditions()));
 
-	qDebug() << "Request URL:" << url;
+	qDebug() << "Fetch current conditions:" << url;
 
 	return true;
 }
@@ -128,7 +134,7 @@ bool ServiceWUnderground::fetchLocationAutocomplete(const QString &location) {
 	QNetworkReply *reply = m_network_manager.get(QNetworkRequest(url));
 	connect(reply, SIGNAL(readyRead()), SLOT(dispatchLocationAutocomplete()));
 
-	qDebug() << "Request URL:" << url;
+	qDebug() << "Fetch location autocomplete:" << url;
 
 	return true;
 }

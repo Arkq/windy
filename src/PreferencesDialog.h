@@ -11,8 +11,6 @@
 #include <QDialog>
 #include <QScopedPointer>
 
-#include "Settings.h"
-
 
 namespace Ui {
 	class PreferencesDialog;
@@ -22,7 +20,7 @@ class PreferencesDialog : public QDialog {
 	Q_OBJECT
 
 public:
-	PreferencesDialog(Settings *settings, QWidget *parent = 0);
+	PreferencesDialog(QWidget *parent = 0);
 	~PreferencesDialog();
 
 private slots:
@@ -32,7 +30,6 @@ private slots:
 
 private:
 	QScopedPointer<Ui::PreferencesDialog> m_ui;
-	Settings *m_settings;
 
 };
 

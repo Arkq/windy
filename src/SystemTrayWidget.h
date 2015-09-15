@@ -12,7 +12,6 @@
 #include <QMenu>
 #include <QSystemTrayIcon>
 
-#include "Settings.h"
 #include "WeatherService.h"
 
 
@@ -20,7 +19,7 @@ class SystemTrayWidget : public QObject {
 	Q_OBJECT
 
 public:
-	explicit SystemTrayWidget(Settings *settings, QObject *parent = 0);
+	explicit SystemTrayWidget(QObject *parent = 0);
 
 	enum class MenuAction {
 		Refresh,
@@ -41,7 +40,7 @@ signals:
 	void menuActionTriggered(SystemTrayWidget::MenuAction action);
 
 private:
-	Settings *m_settings;
+
 	QSystemTrayIcon m_tray_icon;
 	QMenu m_context_menu;
 	QAction m_action_refresh;

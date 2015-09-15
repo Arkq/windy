@@ -18,8 +18,16 @@
 class Application : public QApplication {
 	Q_OBJECT
 
+	// global settings object is provided by the Settings class
+	friend class Settings;
+
 public:
 	Application(int &argc, char **argv);
+
+	// provide convenient access to our global application handler
+	static Application *instance() {
+		return static_cast<Application *>(QApplication::instance());
+	}
 
 public slots:
 	void updateWeatherConditions();

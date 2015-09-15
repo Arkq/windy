@@ -7,10 +7,11 @@
 
 #include "SystemTrayWidget.h"
 
+#include "Settings.h"
 
-SystemTrayWidget::SystemTrayWidget(Settings *settings, QObject *parent) :
+
+SystemTrayWidget::SystemTrayWidget(QObject *parent) :
 		QObject(parent),
-		m_settings(settings),
 		m_action_refresh(QIcon::fromTheme("view-refresh"), tr("&Refresh"), parent),
 		m_action_preferences(QIcon::fromTheme("document-properties"), tr("&Preferences"), parent),
 		m_action_about(QIcon::fromTheme("help-about"), tr("&About"), parent),
@@ -37,6 +38,8 @@ void SystemTrayWidget::showIcon(bool show) {
 
 void SystemTrayWidget::updateConditions(const WeatherConditions &conditions) {
 
+	Settings *settings = Settings::settings();
+
 	QString stationName(conditions.stationName);
 
 	QString unitTemperature;
@@ -59,7 +62,7 @@ void SystemTrayWidget::updateConditions(const WeatherConditions &conditions) {
 	if (conditions.humidity != -1)
 		humidity.setNum(conditions.humidity, 'f', 0);
 
-	switch (m_settings->getUnitTemperature()) {
+	switch (settings->getUnitTemperature()) {
 	case Settings::UnitTemperature::Celsius:
 		unitTemperature = trUtf8("°C");
 		if (conditions.temperature != -1)
@@ -89,7 +92,7 @@ void SystemTrayWidget::updateConditions(const WeatherConditions &conditions) {
 		break;
 	}
 
-	switch (m_settings->getUnitPressure()) {
+	switch (settings->getUnitPressure()) {
 	case Settings::UnitPressure::Hectopascal:
 		unitPressure = trUtf8("hPa");
 		if (conditions.pressure != -1)
@@ -107,7 +110,7 @@ void SystemTrayWidget::updateConditions(const WeatherConditions &conditions) {
 		break;
 	}
 
-	switch (m_settings->getUnitWindSpeed()) {
+	switch (settings->getUnitWindSpeed()) {
 	case Settings::UnitWindSpeed::KilometerPerHour:
 		unitDistance = trUtf8("km");
 		unitSpeed = trUtf8("km/h");

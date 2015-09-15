@@ -14,7 +14,6 @@
 
 Application::Application(int &argc, char **argv) :
 		QApplication(argc, argv),
-		m_tray_widget(&m_settings),
 		m_service(nullptr),
 		m_timer_id(0) {
 
@@ -46,7 +45,7 @@ void Application::updateWeatherConditions() {
 }
 
 void Application::showPreferencesDialog() {
-	PreferencesDialog *preferencesDialog = new PreferencesDialog(&m_settings);
+	PreferencesDialog *preferencesDialog = new PreferencesDialog();
 	connect(preferencesDialog, SIGNAL(accepted()), SLOT(saveSettings()));
 	preferencesDialog->show();
 }

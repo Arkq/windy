@@ -8,11 +8,12 @@
 #include "PreferencesDialog.h"
 #include "ui_PreferencesDialog.h"
 
+#include "Settings.h"
 
-PreferencesDialog::PreferencesDialog(Settings *settings, QWidget *parent) :
+
+PreferencesDialog::PreferencesDialog(QWidget *parent) :
 		QDialog(parent),
-		m_ui(new Ui::PreferencesDialog()),
-		m_settings(settings) {
+		m_ui(new Ui::PreferencesDialog()) {
 
 	m_ui->setupUi(this);
 
@@ -33,15 +34,17 @@ PreferencesDialog::~PreferencesDialog() {
 
 void PreferencesDialog::loadSettings() {
 
-	m_ui->spinBoxUpdateInterval->setValue(m_settings->getDataUpdateInterval());
+	Settings *settings = Settings::settings();
+
+	m_ui->spinBoxUpdateInterval->setValue(settings->getDataUpdateInterval());
 
 	// enable selected service
 	maintainServices();
 
-	m_ui->lineEditWUndKey->setText(m_settings->getWUndergroundApiKey());
-	m_ui->lineEditWUndLocation->setText(m_settings->getWUndergroundLocation());
+	m_ui->lineEditWUndKey->setText(settings->getWUndergroundApiKey());
+	m_ui->lineEditWUndLocation->setText(settings->getWUndergroundLocation());
 
-	switch (m_settings->getUnitPressure()) {
+	switch (settings->getUnitPressure()) {
 	case Settings::UnitPressure::Hectopascal:
 		m_ui->radioButtonPressHPA->setChecked(true);
 		break;
@@ -53,7 +56,7 @@ void PreferencesDialog::loadSettings() {
 		break;
 	}
 
-	switch (m_settings->getUnitTemperature()) {
+	switch (settings->getUnitTemperature()) {
 	case Settings::UnitTemperature::Celsius:
 		m_ui->radioButtonTempC->setChecked(true);
 		break;
@@ -65,7 +68,7 @@ void PreferencesDialog::loadSettings() {
 		break;
 	}
 
-	switch (m_settings->getUnitWindSpeed()) {
+	switch (settings->getUnitWindSpeed()) {
 	case Settings::UnitWindSpeed::KilometerPerHour:
 		m_ui->radioButtonWindKMH->setChecked(true);
 		break;
@@ -81,38 +84,40 @@ void PreferencesDialog::loadSettings() {
 
 void PreferencesDialog::saveSettings() {
 
-	m_settings->setDataUpdateInterval(m_ui->spinBoxUpdateInterval->value());
+	Settings *settings = Settings::settings();
+
+	settings->setDataUpdateInterval(m_ui->spinBoxUpdateInterval->value());
 
 	if (m_ui->groupYahoo->isChecked())
-		m_settings->setDataService(Settings::WeatherService::YahooWeather);
+		settings->setDataService(Settings::WeatherService::YahooWeather);
 	else if (m_ui->groupWUnd->isChecked())
-		m_settings->setDataService(Settings::WeatherService::WeatherUnderground);
+		settings->setDataService(Settings::WeatherService::WeatherUnderground);
 	else
-		m_settings->setDataService(Settings::WeatherService::Undefined);
+		settings->setDataService(Settings::WeatherService::Undefined);
 
-	m_settings->setWUndergroundApiKey(m_ui->lineEditWUndKey->text());
-	m_settings->setWUndergroundLocation(m_ui->lineEditWUndLocation->text());
+	settings->setWUndergroundApiKey(m_ui->lineEditWUndKey->text());
+	settings->setWUndergroundLocation(m_ui->lineEditWUndLocation->text());
 
 	if (m_ui->radioButtonPressHPA->isChecked())
-		m_settings->setUnitPressure(Settings::UnitPressure::Hectopascal);
+		settings->setUnitPressure(Settings::UnitPressure::Hectopascal);
 	else if (m_ui->radioButtonPressPSI->isChecked())
-		m_settings->setUnitPressure(Settings::UnitPressure::PoundPerSquareInch);
+		settings->setUnitPressure(Settings::UnitPressure::PoundPerSquareInch);
 	else if (m_ui->radioButtonPressMMHG->isChecked())
-		m_settings->setUnitPressure(Settings::UnitPressure::MillimeterOfMercury);
+		settings->setUnitPressure(Settings::UnitPressure::MillimeterOfMercury);
 
 	if (m_ui->radioButtonTempC->isChecked())
-		m_settings->setUnitTemperature(Settings::UnitTemperature::Celsius);
+		settings->setUnitTemperature(Settings::UnitTemperature::Celsius);
 	else if (m_ui->radioButtonTempF->isChecked())
-		m_settings->setUnitTemperature(Settings::UnitTemperature::Fahrenheit);
+		settings->setUnitTemperature(Settings::UnitTemperature::Fahrenheit);
 	else if (m_ui->radioButtonTempK->isChecked())
-		m_settings->setUnitTemperature(Settings::UnitTemperature::Kelvin);
+		settings->setUnitTemperature(Settings::UnitTemperature::Kelvin);
 
 	if (m_ui->radioButtonWindKMH->isChecked())
-		m_settings->setUnitWindSpeed(Settings::UnitWindSpeed::KilometerPerHour);
+		settings->setUnitWindSpeed(Settings::UnitWindSpeed::KilometerPerHour);
 	else if (m_ui->radioButtonWindMPH->isChecked())
-		m_settings->setUnitWindSpeed(Settings::UnitWindSpeed::MilePerHour);
+		settings->setUnitWindSpeed(Settings::UnitWindSpeed::MilePerHour);
 	else if (m_ui->radioButtonWindMS->isChecked())
-		m_settings->setUnitWindSpeed(Settings::UnitWindSpeed::MeterPerSecond);
+		settings->setUnitWindSpeed(Settings::UnitWindSpeed::MeterPerSecond);
 
 	emit accepted();
 	close();
@@ -124,7 +129,7 @@ void PreferencesDialog::maintainServices() {
 	QGroupBox *group = qobject_cast<QGroupBox *>(sender());
 
 	if (group == nullptr) {
-		switch (m_settings->getDataService()) {
+		switch (Settings::settings()->getDataService()) {
 		case Settings::WeatherService::Undefined:
 			m_ui->groupYahoo->setChecked(false);
 			m_ui->groupWUnd->setChecked(false);

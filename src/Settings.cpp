@@ -9,6 +9,8 @@
 
 #include <QSettings>
 
+#include "Application.h"
+
 
 Settings::Settings(QObject *parent) :
 		QObject(parent),
@@ -56,4 +58,8 @@ void Settings::save() {
 	settings.setValue("WindSpeed", static_cast<int>(m_unit_wind_speed));
 	settings.endGroup();
 
+}
+
+Settings *Settings::settings() {
+	return &Application::instance()->m_settings;
 }

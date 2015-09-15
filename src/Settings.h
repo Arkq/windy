@@ -64,6 +64,9 @@ public:
 	void load();
 	void save();
 
+	// provide access to the global application settings
+	static Settings *settings();
+
 private:
 
 	int m_data_update_interval;

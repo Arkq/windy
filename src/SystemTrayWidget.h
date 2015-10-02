@@ -29,9 +29,9 @@ public:
 	};
 
 public slots:
-	void showIcon(bool show = true);
-	void updateConditions(const WeatherConditions &conditions);
-	void updateIcon(WeatherConditions::WeatherIcon icon);
+	void setWeatherConditions(const WeatherConditions &conditions);
+	void updateIcon();
+	void updateToolTip();
 
 private slots:
 	void dispatchMenuAction();
@@ -47,6 +47,9 @@ private:
 	QAction m_action_preferences;
 	QAction m_action_about;
 	QAction m_action_quit;
+
+	// currently displayed weather conditions
+	WeatherConditions m_conditions;
 
 };
 

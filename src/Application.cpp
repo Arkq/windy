@@ -31,9 +31,6 @@ Application::Application(int &argc, char **argv) :
 	connect(&m_tray_widget, SIGNAL(menuActionTriggered(SystemTrayWidget::MenuAction)),
 			this, SLOT(dispatchMenuAction(SystemTrayWidget::MenuAction)));
 
-	m_tray_widget.updateIcon(WeatherConditions::WeatherIcon::Clear);
-	m_tray_widget.showIcon();
-
 	// update data upon application start
 	updateWeatherConditions();
 
@@ -72,7 +69,7 @@ void Application::setupWeatherService() {
 		// data update is done asynchronously (GUI responsiveness is a primary
 		// objective), so we need to listen for the update signal
 		connect(m_service, SIGNAL(currentConditions(const WeatherConditions &)),
-				&m_tray_widget, SLOT(updateConditions(const WeatherConditions &)));
+				&m_tray_widget, SLOT(setWeatherConditions(const WeatherConditions &)));
 	}
 
 }
@@ -115,5 +112,6 @@ void Application::dispatchMenuAction(SystemTrayWidget::MenuAction action) {
 void Application::saveSettings() {
 	setupWeatherService();
 	setupUpdateTimer();
+	m_tray_widget.updateToolTip();
 	m_settings.save();
 }

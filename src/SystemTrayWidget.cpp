@@ -30,155 +30,29 @@ SystemTrayWidget::SystemTrayWidget(QObject *parent) :
 	connect(&m_action_about, SIGNAL(triggered()), SLOT(dispatchMenuAction()));
 	connect(&m_action_quit, SIGNAL(triggered()), SLOT(dispatchMenuAction()));
 
-}
+	// initialize tray icon to the default value
+	m_conditions.icon = WeatherConditions::WeatherIcon::Clear;
+	updateIcon();
 
-void SystemTrayWidget::showIcon(bool show) {
-	m_tray_icon.setVisible(show);
-}
-
-void SystemTrayWidget::updateConditions(const WeatherConditions &conditions) {
-
-	Settings *settings = Settings::settings();
-
-	QString stationName(conditions.stationName);
-
-	QString unitTemperature;
-	QString unitPressure;
-	QString unitDistance;
-	QString unitSpeed;
-
-	QString temperature(tr("n/a"));
-	QString pressure(tr("n/a"));
-	QString windSpeed(tr("n/a"));
-	QString windGustSpeed(tr("n/a"));
-	QString windDirection(tr("n/a"));
-	QString windChill(tr("n/a"));
-	QString humidity(tr("n/a"));
-	QString dewPoint(tr("n/a"));
-	QString visibility(tr("n/a"));
-
-	if (conditions.windDirection != -1)
-		windDirection.setNum(conditions.windDirection, 'f', 0);
-	if (conditions.humidity != -1)
-		humidity.setNum(conditions.humidity, 'f', 0);
-
-	switch (settings->getUnitTemperature()) {
-	case Settings::UnitTemperature::Celsius:
-		unitTemperature = trUtf8("°C");
-		if (conditions.temperature != -1)
-			temperature.setNum(conditions.temperature - 273.15, 'f', 1);
-		if (conditions.windChill != -1)
-			windChill.setNum(conditions.windChill - 273.15, 'f', 1);
-		if (conditions.dewPoint != -1)
-			dewPoint.setNum(conditions.dewPoint - 273.15, 'f', 1);
-		break;
-	case Settings::UnitTemperature::Fahrenheit:
-		unitTemperature = trUtf8("°F");
-		if (conditions.temperature != -1)
-			temperature.setNum((conditions.temperature - 273.15) * 1.8 + 32, 'f', 1);
-		if (conditions.windChill != -1)
-			windChill.setNum((conditions.windChill - 273.15) * 1.8 + 32, 'f', 1);
-		if (conditions.dewPoint != -1)
-			dewPoint.setNum((conditions.dewPoint - 273.15) * 1.8 + 32, 'f', 1);
-		break;
-	case Settings::UnitTemperature::Kelvin:
-		unitTemperature = trUtf8("K");
-		if (conditions.temperature != -1)
-			temperature.setNum(conditions.temperature, 'f', 1);
-		if (conditions.windChill != -1)
-			windChill.setNum(conditions.windChill, 'f', 1);
-		if (conditions.dewPoint != -1)
-			dewPoint.setNum(conditions.dewPoint, 'f', 1);
-		break;
-	}
-
-	switch (settings->getUnitPressure()) {
-	case Settings::UnitPressure::Hectopascal:
-		unitPressure = trUtf8("hPa");
-		if (conditions.pressure != -1)
-			pressure.setNum(conditions.pressure / 100, 'f', 0);
-		break;
-	case Settings::UnitPressure::PoundPerSquareInch:
-		unitPressure = trUtf8("psi");
-		if (conditions.pressure != -1)
-			pressure.setNum(conditions.pressure / 6894.75729, 'f', 1);
-		break;
-	case Settings::UnitPressure::MillimeterOfMercury:
-		unitPressure = trUtf8("mmHg");
-		if (conditions.pressure != -1)
-			pressure.setNum(conditions.pressure / 133.3224, 'f', 0);
-		break;
-	}
-
-	switch (settings->getUnitWindSpeed()) {
-	case Settings::UnitWindSpeed::KilometerPerHour:
-		unitDistance = trUtf8("km");
-		unitSpeed = trUtf8("km/h");
-		if (conditions.windSpeed != -1)
-			windSpeed.setNum(conditions.windSpeed * 3.6, 'f', 0);
-		if (conditions.windGustSpeed != -1)
-			windGustSpeed.setNum(conditions.windGustSpeed * 3.6, 'f', 0);
-		if (conditions.visibility != -1)
-			visibility.setNum(conditions.visibility / 1000, 'f', 1);
-		break;
-	case Settings::UnitWindSpeed::MilePerHour:
-		unitDistance = trUtf8("mi.");
-		unitSpeed = trUtf8("MpH");
-		if (conditions.windSpeed != -1)
-			windSpeed.setNum(conditions.windSpeed / 0.44704, 'f', 0);
-		if (conditions.windGustSpeed != -1)
-			windGustSpeed.setNum(conditions.windGustSpeed / 0.44704, 'f', 0);
-		if (conditions.visibility != -1)
-			visibility.setNum(conditions.visibility / 1609.3472, 'f', 1);
-		break;
-	case Settings::UnitWindSpeed::MeterPerSecond:
-		unitDistance = trUtf8("m");
-		unitSpeed = trUtf8("m/s");
-		if (conditions.windSpeed != -1)
-			windSpeed.setNum(conditions.windSpeed, 'f', 1);
-		if (conditions.windGustSpeed != -1)
-			windGustSpeed.setNum(conditions.windGustSpeed, 'f', 1);
-		if (conditions.visibility != -1)
-			visibility.setNum(conditions.visibility, 'f', 0);
-		break;
-	}
-
-	updateIcon(conditions.icon);
-
-	// trim station name if it exceeds 30 characters (prevent wrapping)
-	if (stationName.length() > 30)
-		stationName = stationName.left(28) + "...";
-
-	QString messageTemplate(trUtf8(
-				"<b>{NAME}</b><br/>"
-				"Temperature: {TEMP} ({CHILL}) {T}<br/>"
-				"Wind: {WIND} ({GUST}) {S} {WDIR}°<br/>"
-				"Visibility: {VISIB} {D}<br/>"
-				"Pressure: {PRES} {P}"));
-
-	m_tray_icon.setToolTip(messageTemplate
-			.replace("{T}", unitTemperature)
-			.replace("{P}", unitPressure)
-			.replace("{D}", unitDistance)
-			.replace("{S}", unitSpeed)
-			.replace("{NAME}", stationName)
-			.replace("{TEMP}", temperature)
-			.replace("{PRES}", pressure)
-			.replace("{WIND}", windSpeed)
-			.replace("{GUST}", windGustSpeed)
-			.replace("{WDIR}", windDirection)
-			.replace("{CHILL}", windChill)
-			.replace("{HUMID}", humidity)
-			.replace("{DEWPT}", dewPoint)
-			.replace("{VISIB}", visibility));
+	m_tray_icon.show();
 
 }
 
-void SystemTrayWidget::updateIcon(WeatherConditions::WeatherIcon icon) {
+void SystemTrayWidget::setWeatherConditions(const WeatherConditions &conditions) {
+
+	// update our internal weather conditions structure
+	m_conditions = conditions;
+
+	updateIcon();
+	updateToolTip();
+
+}
+
+void SystemTrayWidget::updateIcon() {
 
 	QStringList icons;
 
-	switch (icon) {
+	switch (m_conditions.icon) {
 	case WeatherConditions::WeatherIcon::Clear:
 		icons << "weather-clear-symbolic";
 		icons << "weather-clear";
@@ -235,6 +109,142 @@ void SystemTrayWidget::updateIcon(WeatherConditions::WeatherIcon icon) {
 	}
 
 	qWarning() << "Weather status icon not found:" << icons;
+}
+
+void SystemTrayWidget::updateToolTip() {
+
+	Settings *settings = Settings::settings();
+
+	QString stationName(m_conditions.stationName);
+
+	QString unitTemperature;
+	QString unitPressure;
+	QString unitDistance;
+	QString unitSpeed;
+
+	QString temperature(tr("n/a"));
+	QString pressure(tr("n/a"));
+	QString windSpeed(tr("n/a"));
+	QString windGustSpeed(tr("n/a"));
+	QString windDirection(tr("n/a"));
+	QString windChill(tr("n/a"));
+	QString humidity(tr("n/a"));
+	QString dewPoint(tr("n/a"));
+	QString visibility(tr("n/a"));
+
+	if (m_conditions.windDirection != -1)
+		windDirection.setNum(m_conditions.windDirection, 'f', 0);
+	if (m_conditions.humidity != -1)
+		humidity.setNum(m_conditions.humidity, 'f', 0);
+
+	switch (settings->getUnitTemperature()) {
+	case Settings::UnitTemperature::Celsius:
+		unitTemperature = trUtf8("°C");
+		if (m_conditions.temperature != -1)
+			temperature.setNum(m_conditions.temperature - 273.15, 'f', 1);
+		if (m_conditions.windChill != -1)
+			windChill.setNum(m_conditions.windChill - 273.15, 'f', 1);
+		if (m_conditions.dewPoint != -1)
+			dewPoint.setNum(m_conditions.dewPoint - 273.15, 'f', 1);
+		break;
+	case Settings::UnitTemperature::Fahrenheit:
+		unitTemperature = trUtf8("°F");
+		if (m_conditions.temperature != -1)
+			temperature.setNum((m_conditions.temperature - 273.15) * 1.8 + 32, 'f', 1);
+		if (m_conditions.windChill != -1)
+			windChill.setNum((m_conditions.windChill - 273.15) * 1.8 + 32, 'f', 1);
+		if (m_conditions.dewPoint != -1)
+			dewPoint.setNum((m_conditions.dewPoint - 273.15) * 1.8 + 32, 'f', 1);
+		break;
+	case Settings::UnitTemperature::Kelvin:
+		unitTemperature = trUtf8("K");
+		if (m_conditions.temperature != -1)
+			temperature.setNum(m_conditions.temperature, 'f', 1);
+		if (m_conditions.windChill != -1)
+			windChill.setNum(m_conditions.windChill, 'f', 1);
+		if (m_conditions.dewPoint != -1)
+			dewPoint.setNum(m_conditions.dewPoint, 'f', 1);
+		break;
+	}
+
+	switch (settings->getUnitPressure()) {
+	case Settings::UnitPressure::Hectopascal:
+		unitPressure = trUtf8("hPa");
+		if (m_conditions.pressure != -1)
+			pressure.setNum(m_conditions.pressure / 100, 'f', 0);
+		break;
+	case Settings::UnitPressure::PoundPerSquareInch:
+		unitPressure = trUtf8("psi");
+		if (m_conditions.pressure != -1)
+			pressure.setNum(m_conditions.pressure / 6894.75729, 'f', 1);
+		break;
+	case Settings::UnitPressure::MillimeterOfMercury:
+		unitPressure = trUtf8("mmHg");
+		if (m_conditions.pressure != -1)
+			pressure.setNum(m_conditions.pressure / 133.3224, 'f', 0);
+		break;
+	}
+
+	switch (settings->getUnitWindSpeed()) {
+	case Settings::UnitWindSpeed::KilometerPerHour:
+		unitDistance = trUtf8("km");
+		unitSpeed = trUtf8("km/h");
+		if (m_conditions.windSpeed != -1)
+			windSpeed.setNum(m_conditions.windSpeed * 3.6, 'f', 0);
+		if (m_conditions.windGustSpeed != -1)
+			windGustSpeed.setNum(m_conditions.windGustSpeed * 3.6, 'f', 0);
+		if (m_conditions.visibility != -1)
+			visibility.setNum(m_conditions.visibility / 1000, 'f', 1);
+		break;
+	case Settings::UnitWindSpeed::MilePerHour:
+		unitDistance = trUtf8("mi.");
+		unitSpeed = trUtf8("MpH");
+		if (m_conditions.windSpeed != -1)
+			windSpeed.setNum(m_conditions.windSpeed / 0.44704, 'f', 0);
+		if (m_conditions.windGustSpeed != -1)
+			windGustSpeed.setNum(m_conditions.windGustSpeed / 0.44704, 'f', 0);
+		if (m_conditions.visibility != -1)
+			visibility.setNum(m_conditions.visibility / 1609.3472, 'f', 1);
+		break;
+	case Settings::UnitWindSpeed::MeterPerSecond:
+		unitDistance = trUtf8("m");
+		unitSpeed = trUtf8("m/s");
+		if (m_conditions.windSpeed != -1)
+			windSpeed.setNum(m_conditions.windSpeed, 'f', 1);
+		if (m_conditions.windGustSpeed != -1)
+			windGustSpeed.setNum(m_conditions.windGustSpeed, 'f', 1);
+		if (m_conditions.visibility != -1)
+			visibility.setNum(m_conditions.visibility, 'f', 0);
+		break;
+	}
+
+	// trim station name if it exceeds 30 characters (prevent wrapping)
+	if (stationName.length() > 30)
+		stationName = stationName.left(28) + "...";
+
+	QString messageTemplate(trUtf8(
+				"<b>{NAME}</b><br/>"
+				"Temperature: {TEMP} ({CHILL}) {T}<br/>"
+				"Wind: {WIND} ({GUST}) {S} {WDIR}°<br/>"
+				"Visibility: {VISIB} {D}<br/>"
+				"Pressure: {PRES} {P}"));
+
+	m_tray_icon.setToolTip(messageTemplate
+			.replace("{T}", unitTemperature)
+			.replace("{P}", unitPressure)
+			.replace("{D}", unitDistance)
+			.replace("{S}", unitSpeed)
+			.replace("{NAME}", stationName)
+			.replace("{TEMP}", temperature)
+			.replace("{PRES}", pressure)
+			.replace("{WIND}", windSpeed)
+			.replace("{GUST}", windGustSpeed)
+			.replace("{WDIR}", windDirection)
+			.replace("{CHILL}", windChill)
+			.replace("{HUMID}", humidity)
+			.replace("{DEWPT}", dewPoint)
+			.replace("{VISIB}", visibility));
+
 }
 
 void SystemTrayWidget::dispatchMenuAction() {

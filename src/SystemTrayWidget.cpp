@@ -115,8 +115,6 @@ void SystemTrayWidget::updateToolTip() {
 
 	Settings *settings = Settings::settings();
 
-	QString stationName(m_conditions.stationName);
-
 	QString unitTemperature;
 	QString unitPressure;
 	QString unitDistance;
@@ -219,8 +217,24 @@ void SystemTrayWidget::updateToolTip() {
 	}
 
 	// trim station name if it exceeds 30 characters (prevent wrapping)
-	if (stationName.length() > 30)
-		stationName = stationName.left(28) + "...";
+	QString stationName(m_conditions.stationName);
+	if (stationName.length() > 30) {
+
+		// strip all non-alphanumerical characters from the trimmed end
+		auto i = stationName.constBegin() + 28;
+		for (; i != stationName.constBegin() - 1; i--)
+			if ((*i).isLetterOrNumber())
+				break;
+
+		stationName = stationName.left(i - stationName.constBegin() + 1);
+		if (stationName.isEmpty())
+			// it has turned out that we've exterminated all characters from
+			// the station name string, so restore the original text
+			stationName = m_conditions.stationName;
+		else
+			stationName += "...";
+
+	}
 
 	QString messageTemplate(trUtf8(
 				"<b>{NAME}</b><br/>"

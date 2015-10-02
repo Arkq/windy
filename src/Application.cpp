@@ -7,6 +7,8 @@
 
 #include "Application.h"
 
+#include <QMessageBox>
+
 #include "PreferencesDialog.h"
 #include "ServiceYahooWeather.h"
 #include "ServiceWUnderground.h"
@@ -101,7 +103,11 @@ void Application::dispatchMenuAction(SystemTrayWidget::MenuAction action) {
 		showPreferencesDialog();
 		break;
 	case SystemTrayWidget::MenuAction::About:
-		aboutQt();
+		QMessageBox::about(nullptr, tr("About Windy"), tr(
+					"<center><big><b>Windy - Minimalistic weather indicator</b></big>"
+					"<p>Copyright &copy; 2015 Arkadiusz Bokowy</p>"
+					"<p>This projected is licensed under the terms of the MIT license.</p>"
+					"<p><a href=\"%1\">%1</a></p></center>").arg(WINDY_HOMEPAGE));
 		break;
 	case SystemTrayWidget::MenuAction::Quit:
 		quit();

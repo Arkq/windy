@@ -14,6 +14,9 @@
 #include "SystemTrayWidget.h"
 #include "WeatherService.h"
 
+// homepage URL used in the About dialog
+#define WINDY_HOMEPAGE "https://github.com/Arkq/windy"
+
 
 class Application : public QApplication {
 	Q_OBJECT

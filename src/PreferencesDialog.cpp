@@ -44,6 +44,13 @@ void PreferencesDialog::loadSettings() {
 	m_ui->lineEditWUndKey->setText(settings->getWUndergroundApiKey());
 	m_ui->lineEditWUndLocation->setText(settings->getWUndergroundLocation());
 
+	m_ui->checkBoxPress->setChecked(settings->getShowPressure());
+	m_ui->checkBoxTemp->setChecked(settings->getShowTemperature());
+	m_ui->checkBoxVisib->setChecked(settings->getShowVisibility());
+	m_ui->checkBoxWind->setChecked(settings->getShowWindSpeed());
+	m_ui->checkBoxWindChill->setChecked(settings->getShowWindChill());
+	m_ui->checkBoxWindGust->setChecked(settings->getShowWindGustSpeed());
+
 	switch (settings->getUnitPressure()) {
 	case Settings::UnitPressure::Hectopascal:
 		m_ui->radioButtonPressHPA->setChecked(true);
@@ -97,6 +104,13 @@ void PreferencesDialog::saveSettings() {
 
 	settings->setWUndergroundApiKey(m_ui->lineEditWUndKey->text());
 	settings->setWUndergroundLocation(m_ui->lineEditWUndLocation->text());
+
+	settings->setShowPressure(m_ui->checkBoxPress->isChecked());
+	settings->setShowTemperature(m_ui->checkBoxTemp->isChecked());
+	settings->setShowVisibility(m_ui->checkBoxVisib->isChecked());
+	settings->setShowWindSpeed(m_ui->checkBoxWind->isChecked());
+	settings->setShowWindChill(m_ui->checkBoxWindChill->isChecked());
+	settings->setShowWindGustSpeed(m_ui->checkBoxWindGust->isChecked());
 
 	if (m_ui->radioButtonPressHPA->isChecked())
 		settings->setUnitPressure(Settings::UnitPressure::Hectopascal);

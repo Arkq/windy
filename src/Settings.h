@@ -61,6 +61,19 @@ public:
 	UnitWindSpeed getUnitWindSpeed() const { return m_unit_wind_speed; }
 	void setUnitWindSpeed(UnitWindSpeed value) { m_unit_wind_speed = value; }
 
+	bool getShowPressure() const { return m_show_pressure; }
+	void setShowPressure(bool value) { m_show_pressure = value; }
+	bool getShowTemperature() const { return m_show_temperature; }
+	void setShowTemperature(bool value) { m_show_temperature = value; }
+	bool getShowVisibility() const { return m_show_visibility; }
+	void setShowVisibility(bool value) { m_show_visibility = value; }
+	bool getShowWindChill() const { return m_show_wind_chill; }
+	void setShowWindChill(bool value) { m_show_wind_chill = value; }
+	bool getShowWindGustSpeed() const { return m_show_wind_gust_speed; }
+	void setShowWindGustSpeed(bool value) { m_show_wind_gust_speed = value; }
+	bool getShowWindSpeed() const { return m_show_wind_speed; }
+	void setShowWindSpeed(bool value) { m_show_wind_speed = value; }
+
 	void load();
 	void save();
 
@@ -79,6 +92,13 @@ private:
 	UnitPressure m_unit_pressure;
 	UnitTemperature m_unit_temperature;
 	UnitWindSpeed m_unit_wind_speed;
+
+	bool m_show_pressure;
+	bool m_show_temperature;
+	bool m_show_visibility;
+	bool m_show_wind_speed;
+	bool m_show_wind_chill;
+	bool m_show_wind_gust_speed;
 
 };
 

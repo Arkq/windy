@@ -236,12 +236,23 @@ void SystemTrayWidget::updateToolTip() {
 
 	}
 
-	QString messageTemplate(trUtf8(
-				"<b>{NAME}</b><br/>"
-				"Temperature: {TEMP} ({CHILL}) {T}<br/>"
-				"Wind: {WIND} ({GUST}) {S} {WDIR}°<br/>"
-				"Visibility: {VISIB} {D}<br/>"
-				"Pressure: {PRES} {P}"));
+	QString messageTemplate(tr("<b>{NAME}</b><br/>"));
+	if (settings->getShowTemperature()) {
+		if (settings->getShowWindChill())
+			messageTemplate += tr("Temperature: {TEMP} ({CHILL}) {T}<br/>");
+		else
+			messageTemplate += tr("Temperature: {TEMP} {T}<br/>");
+	}
+	if (settings->getShowWindSpeed()) {
+		if (settings->getShowWindGustSpeed())
+			messageTemplate += trUtf8("Wind: {WIND} ({GUST}) {S} {WDIR}°<br/>");
+		else
+			messageTemplate += trUtf8("Wind: {WIND} {S} {WDIR}°<br/>");
+	}
+	if (settings->getShowVisibility())
+		messageTemplate += tr("Visibility: {VISIB} {D}<br/>");
+	if (settings->getShowPressure())
+		messageTemplate += tr("Pressure: {PRES} {P}<br/>");
 
 	m_tray_icon.setToolTip(messageTemplate
 			.replace("{T}", unitTemperature)

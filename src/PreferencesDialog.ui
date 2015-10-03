@@ -178,6 +178,50 @@
          <property name="title">
           <string>Appearance</string>
          </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="checkBoxVisib">
+            <property name="text">
+             <string>visibility</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBoxTemp">
+            <property name="text">
+             <string>temperature</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="checkBoxPress">
+            <property name="text">
+             <string>pressure</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBoxWindChill">
+            <property name="text">
+             <string>wind chill</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="checkBoxWind">
+            <property name="text">
+             <string>wind</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="checkBoxWindGust">
+            <property name="text">
+             <string>wind gust</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -242,6 +286,30 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>spinBoxUpdateInterval</tabstop>
+  <tabstop>checkBoxTemp</tabstop>
+  <tabstop>checkBoxWindChill</tabstop>
+  <tabstop>checkBoxWind</tabstop>
+  <tabstop>checkBoxWindGust</tabstop>
+  <tabstop>checkBoxPress</tabstop>
+  <tabstop>checkBoxVisib</tabstop>
+  <tabstop>radioButtonTempC</tabstop>
+  <tabstop>radioButtonTempF</tabstop>
+  <tabstop>radioButtonTempK</tabstop>
+  <tabstop>radioButtonWindKMH</tabstop>
+  <tabstop>radioButtonWindMPH</tabstop>
+  <tabstop>radioButtonWindMS</tabstop>
+  <tabstop>radioButtonPressHPA</tabstop>
+  <tabstop>radioButtonPressPSI</tabstop>
+  <tabstop>radioButtonPressMMHG</tabstop>
+  <tabstop>groupYahoo</tabstop>
+  <tabstop>groupWUnd</tabstop>
+  <tabstop>lineEditWUndKey</tabstop>
+  <tabstop>lineEditWUndLocation</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

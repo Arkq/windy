@@ -70,7 +70,7 @@ public:
 public slots:
 	virtual bool fetchCurrentConditions() = 0;
 	virtual bool fetchForecastConditions() = 0;
-	virtual bool fetchLocationAutocomplete(const QString &location) = 0;
+	virtual bool fetchLocationAutocomplete(const QString &query) = 0;
 
 signals:
 	void currentConditions(const WeatherConditions &conditions);

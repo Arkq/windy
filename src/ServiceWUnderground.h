@@ -22,7 +22,7 @@ public:
 public slots:
 	virtual bool fetchCurrentConditions();
 	virtual bool fetchForecastConditions() { return false; }
-	virtual bool fetchLocationAutocomplete(const QString &location);
+	virtual bool fetchLocationAutocomplete(const QString &query);
 
 private slots:
 	void dispatchCurrentConditions();

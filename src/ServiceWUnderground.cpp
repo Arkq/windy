@@ -31,7 +31,7 @@ bool ServiceWUnderground::fetchCurrentConditions() {
 
 	QUrl url("http://api.wunderground.com/api/" + getApiKey() + "/conditions/q/" + location + ".xml");
 	QNetworkReply *reply = m_network_manager.get(QNetworkRequest(url));
-	connect(reply, SIGNAL(readyRead()), SLOT(dispatchCurrentConditions()));
+	connect(reply, SIGNAL(finished()), SLOT(dispatchCurrentConditions()));
 
 	qDebug() << "Fetch current conditions:" << url;
 
@@ -48,7 +48,8 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 		-1, -1, -1, -1, -1, -1, -1, -1, -1
 	};
 
-	QXmlStreamReader xml(qobject_cast<QNetworkReply *>(sender()));
+	QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+	QXmlStreamReader xml(reply);
 
 	while (!xml.atEnd())
 		if (xml.readNextStartElement() && !xml.isEndElement()) {
@@ -123,16 +124,21 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 
 	dumpWeatherConditions(conditions);
 	emit currentConditions(conditions);
+	reply->deleteLater();
 }
 
-bool ServiceWUnderground::fetchLocationAutocomplete(const QString &location) {
+bool ServiceWUnderground::fetchLocationAutocomplete(const QString &query) {
+
+	// do not bother if the query string is empty
+	if (query.isEmpty())
+		return false;
 
 	QUrl url("http://autocomplete.wunderground.com/aq");
 	url.addQueryItem("format", "xml");
-	url.addQueryItem("query", location);
+	url.addQueryItem("query", query);
 
 	QNetworkReply *reply = m_network_manager.get(QNetworkRequest(url));
-	connect(reply, SIGNAL(readyRead()), SLOT(dispatchLocationAutocomplete()));
+	connect(reply, SIGNAL(finished()), SLOT(dispatchLocationAutocomplete()));
 
 	qDebug() << "Fetch location autocomplete:" << url;
 
@@ -142,7 +148,8 @@ bool ServiceWUnderground::fetchLocationAutocomplete(const QString &location) {
 void ServiceWUnderground::dispatchLocationAutocomplete() {
 
 	QStringList names;
-	QXmlStreamReader xml(qobject_cast<QNetworkReply *>(sender()));
+	QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
+	QXmlStreamReader xml(reply);
 
 	while (!xml.atEnd())
 		if (xml.readNextStartElement() and !xml.isEndElement()) {
@@ -151,4 +158,5 @@ void ServiceWUnderground::dispatchLocationAutocomplete() {
 		}
 
 	emit locationAutocomplete(names);
+	reply->deleteLater();
 }

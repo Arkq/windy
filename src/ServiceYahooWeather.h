@@ -20,7 +20,7 @@ public:
 public slots:
 	virtual bool fetchCurrentConditions() { return false; }
 	virtual bool fetchForecastConditions() { return false; }
-	virtual bool fetchLocationAutocomplete(const QString &location) { return false; }
+	virtual bool fetchLocationAutocomplete(const QString &query) { return false; }
 
 };
 

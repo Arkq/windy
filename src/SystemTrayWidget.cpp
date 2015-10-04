@@ -246,10 +246,14 @@ void SystemTrayWidget::updateToolTip() {
 			messageTemplate += tr("Temperature: {TEMP} {T}<br/>");
 	}
 	if (settings->getShowWindSpeed()) {
+		QString windTemplate;
 		if (settings->getShowWindGustSpeed())
-			messageTemplate += trUtf8("Wind: {WIND} ({GUST}) {S} {WDIR}°<br/>");
+			windTemplate = tr("Wind: {WIND} ({GUST}) {S}");
 		else
-			messageTemplate += trUtf8("Wind: {WIND} {S} {WDIR}°<br/>");
+			windTemplate = tr("Wind: {WIND} {S}");
+		if (m_conditions.windDirection != -1)
+			windTemplate += trUtf8(" {WDIR}°");
+		messageTemplate += windTemplate + "<br/>";
 	}
 	if (settings->getShowVisibility())
 		messageTemplate += tr("Visibility: {VISIB} {D}<br/>");

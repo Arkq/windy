@@ -53,6 +53,57 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QGroupBox" name="groupAppearance">
+         <property name="title">
+          <string>Appearance</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout">
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="checkBoxTemp">
+            <property name="text">
+             <string>Temperature</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QCheckBox" name="checkBoxWindChill">
+            <property name="text">
+             <string>Wind chill</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="checkBoxWind">
+            <property name="text">
+             <string>Wind</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="checkBoxWindGust">
+            <property name="text">
+             <string>Wind gust</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QCheckBox" name="checkBoxPress">
+            <property name="text">
+             <string>Pressure</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="2">
+           <widget class="QCheckBox" name="checkBoxVisib">
+            <property name="text">
+             <string>Visibility</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
        <item row="2" column="0" colspan="2">
         <widget class="QGroupBox" name="groupUnits">
          <property name="title">
@@ -173,57 +224,6 @@
          </layout>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QGroupBox" name="groupAppearance">
-         <property name="title">
-          <string>Appearance</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout">
-          <item row="1" column="2">
-           <widget class="QCheckBox" name="checkBoxVisib">
-            <property name="text">
-             <string>Visibility</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QCheckBox" name="checkBoxTemp">
-            <property name="text">
-             <string>Temperature</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QCheckBox" name="checkBoxPress">
-            <property name="text">
-             <string>Pressure</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QCheckBox" name="checkBoxWindChill">
-            <property name="text">
-             <string>Wind chill</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QCheckBox" name="checkBoxWind">
-            <property name="text">
-             <string>Wind</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QCheckBox" name="checkBoxWindGust">
-            <property name="text">
-             <string>Wind gust</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="tabServices">
@@ -231,6 +231,16 @@
        <string>Services</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayoutApp">
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="groupGoogle">
+         <property name="title">
+          <string>Google Search</string>
+         </property>
+         <property name="checkable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
        <item row="1" column="0">
         <widget class="QGroupBox" name="groupWUnd">
          <property name="title">
@@ -273,7 +283,7 @@
          </layout>
         </widget>
        </item>
-       <item row="0" column="0">
+       <item row="2" column="0">
         <widget class="QGroupBox" name="groupYahoo">
          <property name="title">
           <string>Yahoo Weather</string>
@@ -300,25 +310,6 @@
   <tabstop>buttonBox</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>spinBoxUpdateInterval</tabstop>
-  <tabstop>checkBoxTemp</tabstop>
-  <tabstop>checkBoxWindChill</tabstop>
-  <tabstop>checkBoxWind</tabstop>
-  <tabstop>checkBoxWindGust</tabstop>
-  <tabstop>checkBoxPress</tabstop>
-  <tabstop>checkBoxVisib</tabstop>
-  <tabstop>radioButtonTempC</tabstop>
-  <tabstop>radioButtonTempF</tabstop>
-  <tabstop>radioButtonTempK</tabstop>
-  <tabstop>radioButtonWindKMH</tabstop>
-  <tabstop>radioButtonWindMPH</tabstop>
-  <tabstop>radioButtonWindMS</tabstop>
-  <tabstop>radioButtonPressHPA</tabstop>
-  <tabstop>radioButtonPressPSI</tabstop>
-  <tabstop>radioButtonPressMMHG</tabstop>
-  <tabstop>groupYahoo</tabstop>
-  <tabstop>groupWUnd</tabstop>
-  <tabstop>lineEditWUndKey</tabstop>
-  <tabstop>lineEditWUndLocation</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -20,8 +20,9 @@ public:
 
 	enum class WeatherService {
 		Undefined = 0,
-		YahooWeather,
+		GoogleSearch,
 		WeatherUnderground,
+		YahooWeather,
 	};
 
 	enum class UnitPressure {
@@ -47,12 +48,12 @@ public:
 	WeatherService getDataService() const { return m_data_service; }
 	void setDataService(WeatherService value) { m_data_service = value; }
 
-	const QString &getYahooApiKey() const { return m_yahoo_api_key; }
-	void setYahooApiKey(const QString &value) { m_yahoo_api_key = value; }
-	const QString &getWUndergroundApiKey() const { return m_wu_api_key; }
 	void setWUndergroundApiKey(const QString &value) { m_wu_api_key = value; }
 	const QString &getWUndergroundLocation() const { return m_wu_location; }
 	void setWUndergroundLocation(const QString &value) { m_wu_location = value; }
+	const QString &getYahooApiKey() const { return m_yahoo_api_key; }
+	void setYahooApiKey(const QString &value) { m_yahoo_api_key = value; }
+	const QString &getWUndergroundApiKey() const { return m_wu_api_key; }
 
 	UnitPressure getUnitPressure() const { return m_unit_pressure; }
 	void setUnitPressure(UnitPressure value) { m_unit_pressure = value; }
@@ -85,9 +86,9 @@ private:
 	int m_data_update_interval;
 	WeatherService m_data_service;
 
-	QString m_yahoo_api_key;
 	QString m_wu_api_key;
 	QString m_wu_location;
+	QString m_yahoo_api_key;
 
 	UnitPressure m_unit_pressure;
 	UnitTemperature m_unit_temperature;

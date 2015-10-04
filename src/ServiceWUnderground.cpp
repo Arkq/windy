@@ -14,7 +14,6 @@
 
 ServiceWUnderground::ServiceWUnderground(QObject *parent) :
 		WeatherService(parent) {
-
 }
 
 bool ServiceWUnderground::fetchCurrentConditions() {
@@ -30,10 +29,10 @@ bool ServiceWUnderground::fetchCurrentConditions() {
 		location = "autoip";
 
 	QUrl url("http://api.wunderground.com/api/" + getApiKey() + "/conditions/q/" + location + ".xml");
+
+	qDebug() << "Current conditions:" << url;
 	QNetworkReply *reply = m_network_manager.get(QNetworkRequest(url));
 	connect(reply, SIGNAL(finished()), SLOT(dispatchCurrentConditions()));
-
-	qDebug() << "Fetch current conditions:" << url;
 
 	return true;
 }
@@ -122,7 +121,6 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 
 		}
 
-	dumpWeatherConditions(conditions);
 	emit currentConditions(conditions);
 	reply->deleteLater();
 }
@@ -137,10 +135,9 @@ bool ServiceWUnderground::fetchLocationAutocomplete(const QString &query) {
 	url.addQueryItem("format", "xml");
 	url.addQueryItem("query", query);
 
+	qDebug() << "Autocomplete:" << url;
 	QNetworkReply *reply = m_network_manager.get(QNetworkRequest(url));
 	connect(reply, SIGNAL(finished()), SLOT(dispatchLocationAutocomplete()));
-
-	qDebug() << "Fetch location autocomplete:" << url;
 
 	return true;
 }

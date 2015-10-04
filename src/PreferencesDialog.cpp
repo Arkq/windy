@@ -21,8 +21,9 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
 
 	// weather services are mutually exclusive, these connections will ensure,
 	// that this paradigm is fulfilled by our GUI widgets
-	connect(m_ui->groupYahoo, SIGNAL(toggled(bool)), SLOT(maintainServices()));
+	connect(m_ui->groupGoogle, SIGNAL(toggled(bool)), SLOT(maintainServices()));
 	connect(m_ui->groupWUnd, SIGNAL(toggled(bool)), SLOT(maintainServices()));
+	connect(m_ui->groupYahoo, SIGNAL(toggled(bool)), SLOT(maintainServices()));
 
 	connect(m_ui->buttonBox, SIGNAL(accepted()), SLOT(saveSettings()));
 	connect(m_ui->buttonBox, SIGNAL(rejected()), SLOT(close()));
@@ -95,10 +96,12 @@ void PreferencesDialog::saveSettings() {
 
 	settings->setDataUpdateInterval(m_ui->spinBoxUpdateInterval->value());
 
-	if (m_ui->groupYahoo->isChecked())
-		settings->setDataService(Settings::WeatherService::YahooWeather);
+	if (m_ui->groupGoogle->isChecked())
+		settings->setDataService(Settings::WeatherService::GoogleSearch);
 	else if (m_ui->groupWUnd->isChecked())
 		settings->setDataService(Settings::WeatherService::WeatherUnderground);
+	else if (m_ui->groupYahoo->isChecked())
+		settings->setDataService(Settings::WeatherService::YahooWeather);
 	else
 		settings->setDataService(Settings::WeatherService::Undefined);
 
@@ -145,24 +148,38 @@ void PreferencesDialog::maintainServices() {
 	if (group == nullptr) {
 		switch (Settings::settings()->getDataService()) {
 		case Settings::WeatherService::Undefined:
+			m_ui->groupGoogle->setChecked(false);
+			m_ui->groupWUnd->setChecked(false);
 			m_ui->groupYahoo->setChecked(false);
-			m_ui->groupWUnd->setChecked(false);
 			break;
-		case Settings::WeatherService::YahooWeather:
-			m_ui->groupYahoo->setChecked(true);
+		case Settings::WeatherService::GoogleSearch:
+			m_ui->groupGoogle->setChecked(true);
 			m_ui->groupWUnd->setChecked(false);
+			m_ui->groupYahoo->setChecked(false);
 			break;
 		case Settings::WeatherService::WeatherUnderground:
-			m_ui->groupYahoo->setChecked(false);
+			m_ui->groupGoogle->setChecked(false);
 			m_ui->groupWUnd->setChecked(true);
+			m_ui->groupYahoo->setChecked(false);
+			break;
+		case Settings::WeatherService::YahooWeather:
+			m_ui->groupGoogle->setChecked(false);
+			m_ui->groupWUnd->setChecked(false);
+			m_ui->groupYahoo->setChecked(true);
 			break;
 		}
 	}
-	else if (group == m_ui->groupYahoo && group->isChecked()) {
+	else if (group == m_ui->groupGoogle && group->isChecked()) {
 		m_ui->groupWUnd->setChecked(false);
+		m_ui->groupYahoo->setChecked(false);
 	}
 	else if (group == m_ui->groupWUnd && group->isChecked()) {
+		m_ui->groupGoogle->setChecked(false);
 		m_ui->groupYahoo->setChecked(false);
+	}
+	else if (group == m_ui->groupYahoo && group->isChecked()) {
+		m_ui->groupGoogle->setChecked(false);
+		m_ui->groupWUnd->setChecked(false);
 	}
 
 }

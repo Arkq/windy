@@ -43,6 +43,8 @@ void SystemTrayWidget::setWeatherConditions(const WeatherConditions &conditions)
 	// update our internal weather conditions structure
 	m_conditions = conditions;
 
+	dumpWeatherConditions(conditions);
+
 	updateIcon();
 	updateToolTip();
 

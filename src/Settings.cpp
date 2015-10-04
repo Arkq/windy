@@ -15,7 +15,7 @@
 Settings::Settings(QObject *parent) :
 		QObject(parent),
 		m_data_update_interval(60),
-		m_data_service(WeatherService::Undefined),
+		m_data_service(WeatherService::GoogleSearch),
 		m_unit_pressure(UnitPressure::Hectopascal),
 		m_unit_temperature(UnitTemperature::Celsius),
 		m_unit_wind_speed(UnitWindSpeed::KilometerPerHour),
@@ -25,7 +25,6 @@ Settings::Settings(QObject *parent) :
 		m_show_wind_speed(true),
 		m_show_wind_chill(false),
 		m_show_wind_gust_speed(false) {
-
 }
 
 void Settings::load() {

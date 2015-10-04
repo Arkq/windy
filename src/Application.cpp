@@ -10,8 +10,9 @@
 #include <QMessageBox>
 
 #include "PreferencesDialog.h"
-#include "ServiceYahooWeather.h"
+#include "ServiceGoogleSearch.h"
 #include "ServiceWUnderground.h"
+#include "ServiceYahooWeather.h"
 
 
 Application::Application(int &argc, char **argv) :
@@ -53,15 +54,19 @@ void Application::setupWeatherService() {
 
 	// remove previously initialized service handler
 	delete m_service;
+	m_service = nullptr;
 
 	switch (m_settings.getDataService()) {
-	case Settings::WeatherService::YahooWeather:
-		m_service = new ServiceYahooWeather(this);
+	case Settings::WeatherService::GoogleSearch:
+		m_service = new ServiceGoogleSearch(this);
 		break;
 	case Settings::WeatherService::WeatherUnderground:
 		m_service = new ServiceWUnderground(this);
 		m_service->setApiKey(m_settings.getWUndergroundApiKey());
 		m_service->setLocation(m_settings.getWUndergroundLocation());
+		break;
+	case Settings::WeatherService::YahooWeather:
+		m_service = new ServiceYahooWeather(this);
 		break;
 	default:
 		break;

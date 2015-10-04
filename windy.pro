@@ -19,6 +19,7 @@ unix {
 HEADERS += \
 	src/Application.h \
 	src/PreferencesDialog.h \
+	src/ServiceGoogleSearch.h \
 	src/ServiceWUnderground.h \
 	src/ServiceYahooWeather.h \
 	src/Settings.h \
@@ -28,6 +29,7 @@ HEADERS += \
 SOURCES += \
 	src/Application.cpp \
 	src/PreferencesDialog.cpp \
+	src/ServiceGoogleSearch.cpp \
 	src/ServiceWUnderground.cpp \
 	src/ServiceYahooWeather.cpp \
 	src/Settings.cpp \

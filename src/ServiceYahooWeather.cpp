@@ -10,5 +10,4 @@
 
 ServiceYahooWeather::ServiceYahooWeather(QObject *parent) :
 		WeatherService(parent) {
-
 }

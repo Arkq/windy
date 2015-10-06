@@ -10,6 +10,9 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QXmlStreamReader>
+#if QT_VERSION >= 0x050000
+	#include <QUrlQuery>
+#endif
 
 
 ServiceWUnderground::ServiceWUnderground(QObject *parent) :
@@ -58,7 +61,7 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 			else if (xml.name() == "observation_epoch")
 				conditions.observationTime.setTime_t(xml.readElementText().toUInt());
 			else if (xml.name() == "observation_location") {
-				while (!(xml.isEndElement() and xml.name() == "observation_location"))
+				while (!(xml.isEndElement() && xml.name() == "observation_location"))
 					if (xml.readNextStartElement() && !xml.isEndElement()) {
 						if (xml.name() == "full")
 							conditions.stationName = xml.readElementText();
@@ -132,8 +135,15 @@ bool ServiceWUnderground::fetchLocationAutocomplete(const QString &query) {
 		return false;
 
 	QUrl url("http://autocomplete.wunderground.com/aq");
+#if QT_VERSION >= 0x050000
+	QUrlQuery urlQuery(url);
+	urlQuery.addQueryItem("format", "xml");
+	urlQuery.addQueryItem("query", query);
+	url.setQuery(urlQuery);
+#else
 	url.addQueryItem("format", "xml");
 	url.addQueryItem("query", query);
+#endif
 
 	qDebug() << "Autocomplete:" << url;
 	QNetworkReply *reply = m_network_manager.get(QNetworkRequest(url));
@@ -149,7 +159,7 @@ void ServiceWUnderground::dispatchLocationAutocomplete() {
 	QXmlStreamReader xml(reply);
 
 	while (!xml.atEnd())
-		if (xml.readNextStartElement() and !xml.isEndElement()) {
+		if (xml.readNextStartElement() && !xml.isEndElement()) {
 			if (xml.name() == "name")
 				names << xml.readElementText();
 		}

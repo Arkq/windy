@@ -221,23 +221,23 @@ void SystemTrayWidget::updateToolTip() {
 		break;
 	}
 
-	// trim station name if it exceeds 30 characters (prevent wrapping)
-	QString stationName(m_conditions.stationName);
-	if (stationName.length() > 30) {
+	// trim location name if it exceeds 30 characters (prevent wrapping)
+	QString locationName(m_conditions.locationName);
+	if (locationName.length() > 30) {
 
 		// strip all non-alphanumerical characters from the trimmed end
-		auto i = stationName.constBegin() + 28;
-		for (; i != stationName.constBegin() - 1; i--)
+		auto i = locationName.constBegin() + 28;
+		for (; i != locationName.constBegin() - 1; i--)
 			if ((*i).isLetterOrNumber())
 				break;
 
-		stationName = stationName.left(i - stationName.constBegin() + 1);
-		if (stationName.isEmpty())
+		locationName = locationName.left(i - locationName.constBegin() + 1);
+		if (locationName.isEmpty())
 			// it has turned out that we've exterminated all characters from
-			// the station name string, so restore the original text
-			stationName = m_conditions.stationName;
+			// the location name string, so restore the original text
+			locationName = m_conditions.locationName;
 		else
-			stationName += "...";
+			locationName += "...";
 
 	}
 
@@ -268,7 +268,7 @@ void SystemTrayWidget::updateToolTip() {
 			.replace("{P}", unitPressure)
 			.replace("{D}", unitDistance)
 			.replace("{S}", unitSpeed)
-			.replace("{NAME}", stationName)
+			.replace("{NAME}", locationName)
 			.replace("{TEMP}", temperature)
 			.replace("{PRES}", pressure)
 			.replace("{WIND}", windSpeed)

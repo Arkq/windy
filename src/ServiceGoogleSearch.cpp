@@ -74,7 +74,7 @@ void ServiceGoogleSearch::dispatchCurrentConditions() {
 				QStringRef attrId(xml.attributes().value("id"));
 
 				if (attrId == "wob_loc")
-					conditions.stationName = xml.readElementText();
+					conditions.locationName = xml.readElementText();
 				else if (attrId == "wob_tm")
 					conditions.temperature = xml.readElementText().toFloat() + 273.15;
 				else if (attrId == "wob_hm")

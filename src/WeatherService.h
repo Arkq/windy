@@ -31,10 +31,10 @@ struct WeatherConditions {
 	};
 
 	QString stationID;
-	QString stationName;
-	float stationLatitude;
-	float stationLongitude;
-	float stationElevation;
+	QString locationName;
+	float locationLatitude;
+	float locationLongitude;
+	float locationElevation;
 
 	QDateTime observationTime;
 
@@ -90,10 +90,10 @@ private:
 // this function is for the debugging purposes only.
 inline void dumpWeatherConditions(const WeatherConditions &conditions) {
 	qDebug() << "station ID:" << conditions.stationID;
-	qDebug() << "station name:" << conditions.stationName;
-	qDebug() << "latitude:" << conditions.stationLatitude;
-	qDebug() << "longitude:" << conditions.stationLongitude;
-	qDebug() << "elevation:" << conditions.stationElevation << "m";
+	qDebug() << "location name:" << conditions.locationName;
+	qDebug() << "latitude:" << conditions.locationLatitude;
+	qDebug() << "longitude:" << conditions.locationLongitude;
+	qDebug() << "elevation:" << conditions.locationElevation << "m";
 	qDebug() << "time:" << conditions.observationTime.toString();
 	qDebug() << "icon:" << static_cast<int>(conditions.icon);
 	qDebug() << "temperature:" << conditions.temperature << "K";

@@ -60,17 +60,17 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 				conditions.stationID = xml.readElementText();
 			else if (xml.name() == "observation_epoch")
 				conditions.observationTime.setTime_t(xml.readElementText().toUInt());
-			else if (xml.name() == "observation_location") {
-				while (!(xml.isEndElement() && xml.name() == "observation_location"))
+			else if (xml.name() == "display_location") {
+				while (!(xml.isEndElement() && xml.name() == "display_location"))
 					if (xml.readNextStartElement() && !xml.isEndElement()) {
 						if (xml.name() == "full")
-							conditions.stationName = xml.readElementText();
+							conditions.locationName = xml.readElementText();
 						else if (xml.name() == "latitude")
-							conditions.stationLatitude = xml.readElementText().toFloat();
+							conditions.locationLatitude = xml.readElementText().toFloat();
 						else if (xml.name() == "longitude")
-							conditions.stationLongitude = xml.readElementText().toFloat();
+							conditions.locationLongitude = xml.readElementText().toFloat();
 						else if (xml.name() == "elevation")
-							conditions.stationElevation = xml.readElementText().remove("ft").toFloat() / 3.2808;
+							conditions.locationElevation = xml.readElementText().remove("ft").toFloat() / 3.2808;
 					}
 			}
 			else if (xml.name() == "temp_c")

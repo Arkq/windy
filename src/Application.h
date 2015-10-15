@@ -33,6 +33,7 @@ public:
 	}
 
 public slots:
+	void openWeatherConditionsExternalUrl();
 	void updateWeatherConditions();
 	void showPreferencesDialog();
 

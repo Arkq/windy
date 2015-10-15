@@ -19,6 +19,8 @@ class ServiceGoogleSearch : public WeatherService {
 public:
 	explicit ServiceGoogleSearch(QObject *parent = 0);
 
+	virtual QString getConditionsUrl() override;
+
 public slots:
 	virtual bool fetchCurrentConditions() override;
 	virtual bool fetchForecastConditions() override { return false; }

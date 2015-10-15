@@ -25,6 +25,9 @@ SystemTrayWidget::SystemTrayWidget(QObject *parent) :
 	m_context_menu.addSeparator();
 	m_context_menu.addAction(&m_action_quit);
 
+	connect(&m_tray_icon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+			this, SLOT(dispatchIconActivation(QSystemTrayIcon::ActivationReason)));
+
 	connect(&m_action_refresh, SIGNAL(triggered()), SLOT(dispatchMenuAction()));
 	connect(&m_action_preferences, SIGNAL(triggered()), SLOT(dispatchMenuAction()));
 	connect(&m_action_about, SIGNAL(triggered()), SLOT(dispatchMenuAction()));
@@ -276,6 +279,14 @@ void SystemTrayWidget::updateToolTip() {
 			.replace("{DEWPT}", dewPoint)
 			.replace("{VISIB}", visibility));
 
+}
+
+void SystemTrayWidget::dispatchIconActivation(QSystemTrayIcon::ActivationReason reason) {
+	// NOTE: Icon activation dispatcher handles left and middle click only. Other
+	//       actions are handled internally by this widget, so there is no reason
+	//       for them to be exposed.
+	if (reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::MiddleClick)
+		emit iconActivated(reason);
 }
 
 void SystemTrayWidget::dispatchMenuAction() {

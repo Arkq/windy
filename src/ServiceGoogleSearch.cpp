@@ -16,6 +16,10 @@ ServiceGoogleSearch::ServiceGoogleSearch(QObject *parent) :
 		WeatherService(parent) {
 }
 
+QString ServiceGoogleSearch::getConditionsUrl() {
+	return "http://www.google.com/search?q=weather";
+}
+
 bool ServiceGoogleSearch::fetchCurrentConditions() {
 
 	QUrl url("http://www.google.com/search?q=weather");

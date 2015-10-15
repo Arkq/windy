@@ -34,9 +34,11 @@ public slots:
 	void updateToolTip();
 
 private slots:
+	void dispatchIconActivation(QSystemTrayIcon::ActivationReason reason);
 	void dispatchMenuAction();
 
 signals:
+	void iconActivated(QSystemTrayIcon::ActivationReason reason);
 	void menuActionTriggered(SystemTrayWidget::MenuAction action);
 
 private:

@@ -7,7 +7,9 @@
 
 #include "Application.h"
 
+#include <QDesktopServices>
 #include <QMessageBox>
+#include <QUrl>
 
 #include "PreferencesDialog.h"
 #include "ServiceGoogleSearch.h"
@@ -30,6 +32,10 @@ Application::Application(int &argc, char **argv) :
 	setupWeatherService();
 	setupUpdateTimer();
 
+	// handle click events from the tray icon widget
+	connect(&m_tray_widget, SIGNAL(iconActivated(QSystemTrayIcon::ActivationReason)),
+			this, SLOT(openWeatherConditionsExternalUrl()));
+
 	// handle menu events from the tray icon widget
 	connect(&m_tray_widget, SIGNAL(menuActionTriggered(SystemTrayWidget::MenuAction)),
 			this, SLOT(dispatchMenuAction(SystemTrayWidget::MenuAction)));
@@ -37,6 +43,12 @@ Application::Application(int &argc, char **argv) :
 	// update data upon application start
 	updateWeatherConditions();
 
+}
+
+void Application::openWeatherConditionsExternalUrl() {
+	QString conditionsUrl(m_service->getConditionsUrl());
+	if (!conditionsUrl.isEmpty())
+		QDesktopServices::openUrl(QUrl(conditionsUrl));
 }
 
 void Application::updateWeatherConditions() {

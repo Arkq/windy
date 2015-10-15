@@ -19,6 +19,12 @@ ServiceWUnderground::ServiceWUnderground(QObject *parent) :
 		WeatherService(parent) {
 }
 
+QString ServiceWUnderground::getConditionsUrl() {
+	if (m_current_wmo.isEmpty())
+		return QString();
+	return "http://www.wunderground.com/global/stations/" + m_current_wmo + ".html";
+}
+
 bool ServiceWUnderground::fetchCurrentConditions() {
 
 	// this service requires API key
@@ -65,6 +71,8 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 					if (xml.readNextStartElement() && !xml.isEndElement()) {
 						if (xml.name() == "full")
 							conditions.locationName = xml.readElementText();
+						else if (xml.name() == "wmo")
+							m_current_wmo = xml.readElementText();
 						else if (xml.name() == "latitude")
 							conditions.locationLatitude = xml.readElementText().toFloat();
 						else if (xml.name() == "longitude")
@@ -128,7 +136,6 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 	reply->deleteLater();
 }
 
-#if 0
 bool ServiceWUnderground::fetchLocationAutocomplete(const QString &query) {
 
 	// do not bother if the query string is empty
@@ -152,7 +159,6 @@ bool ServiceWUnderground::fetchLocationAutocomplete(const QString &query) {
 
 	return true;
 }
-#endif
 
 void ServiceWUnderground::dispatchLocationAutocomplete() {
 

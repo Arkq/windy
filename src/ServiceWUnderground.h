@@ -19,9 +19,14 @@ class ServiceWUnderground : public WeatherService {
 public:
 	explicit ServiceWUnderground(QObject *parent = 0);
 
+	virtual QString getConditionsUrl() override;
+
 public slots:
 	virtual bool fetchCurrentConditions() override;
 	virtual bool fetchForecastConditions() override { return false; }
+
+protected:
+	bool fetchLocationAutocomplete(const QString &query);
 
 private slots:
 	void dispatchCurrentConditions();
@@ -29,6 +34,9 @@ private slots:
 
 private:
 	QNetworkAccessManager m_network_manager;
+
+	// station identifier saved from the lastly fetched conditions
+	QString m_current_wmo;
 
 };
 

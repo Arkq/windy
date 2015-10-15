@@ -128,6 +128,7 @@ void ServiceWUnderground::dispatchCurrentConditions() {
 	reply->deleteLater();
 }
 
+#if 0
 bool ServiceWUnderground::fetchLocationAutocomplete(const QString &query) {
 
 	// do not bother if the query string is empty
@@ -151,6 +152,7 @@ bool ServiceWUnderground::fetchLocationAutocomplete(const QString &query) {
 
 	return true;
 }
+#endif
 
 void ServiceWUnderground::dispatchLocationAutocomplete() {
 
@@ -164,6 +166,6 @@ void ServiceWUnderground::dispatchLocationAutocomplete() {
 				names << xml.readElementText();
 		}
 
-	emit locationAutocomplete(names);
+//	emit locationAutocomplete(names);
 	reply->deleteLater();
 }

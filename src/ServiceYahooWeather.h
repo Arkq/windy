@@ -18,9 +18,8 @@ public:
 	explicit ServiceYahooWeather(QObject *parent = 0);
 
 public slots:
-	virtual bool fetchCurrentConditions() { return false; }
-	virtual bool fetchForecastConditions() { return false; }
-	virtual bool fetchLocationAutocomplete(const QString &query) { return false; }
+	virtual bool fetchCurrentConditions() override { return false; }
+	virtual bool fetchForecastConditions() override { return false; }
 
 };
 

@@ -20,9 +20,8 @@ public:
 	explicit ServiceGoogleSearch(QObject *parent = 0);
 
 public slots:
-	virtual bool fetchCurrentConditions();
-	virtual bool fetchForecastConditions() { return false; }
-	virtual bool fetchLocationAutocomplete(const QString &query) { return false; }
+	virtual bool fetchCurrentConditions() override;
+	virtual bool fetchForecastConditions() override { return false; }
 
 private slots:
 	void dispatchCurrentConditions();

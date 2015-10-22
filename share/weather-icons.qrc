@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="icons">
+    <file alias="weather-clear">icons/weather-clear.svg</file>
+    <file alias="weather-clear-night">icons/weather-clear-night.svg</file>
+    <file alias="weather-few-clouds">icons/weather-few-clouds.svg</file>
+    <file alias="weather-few-clouds-night">icons/weather-few-clouds-night.svg</file>
+    <file alias="weather-fog">icons/weather-fog.svg</file>
+    <file alias="weather-overcast">icons/weather-overcast.svg</file>
+    <file alias="weather-severe-alert">icons/weather-severe-alert.svg</file>
+    <file alias="weather-showers">icons/weather-showers.svg</file>
+    <file alias="weather-snow">icons/weather-snow.svg</file>
+    <file alias="weather-storm">icons/weather-storm.svg</file>
+  </qresource>
+</RCC>

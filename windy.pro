@@ -10,10 +10,18 @@ CONFIG += qt
 CONFIG += c++11
 
 QT += core gui network
-QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4) {
+	QT += widgets
+}
 
-unix {
+unix:!greaterThan(QT_MAJOR_VERSION, 4) {
 	QMAKE_CXXFLAGS += -std=c++11
+}
+
+!unix {
+	# Themed icons are supported on Unix platform only. On other
+	# platforms bundled weather icons are mandatory.
+	DEFINES += WITH_WEATHER_ICONS
 }
 
 HEADERS += \
@@ -38,3 +46,7 @@ SOURCES += \
 
 FORMS += \
 	src/PreferencesDialog.ui
+
+contains(DEFINES, WITH_WEATHER_ICONS) {
+	RESOURCES += share/weather-icons.qrc
+}

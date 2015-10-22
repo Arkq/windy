@@ -56,53 +56,70 @@ void SystemTrayWidget::setWeatherConditions(const WeatherConditions &conditions)
 void SystemTrayWidget::updateIcon() {
 
 	QStringList icons;
+	QString fallback;
 
 	switch (m_conditions.icon) {
 	case WeatherConditions::WeatherIcon::Clear:
+		fallback = ":/icons/weather-clear";
 		icons << "weather-clear-symbolic";
 		icons << "weather-clear";
 		break;
 	case WeatherConditions::WeatherIcon::ClearNight:
+		fallback = ":/icons/weather-clear-night";
 		icons << "weather-clear-night-symbolic";
 		icons << "weather-night-clear";
 		break;
 	case WeatherConditions::WeatherIcon::FewClouds:
+		fallback = ":/icons/weather-few-clouds";
 		icons << "weather-few-clouds-symbolic";
 		icons << "weather-few-clouds";
 		break;
 	case WeatherConditions::WeatherIcon::FewCloudsNight:
+		fallback = ":/icons/weather-few-clouds-night";
 		icons << "weather-few-clouds-night-symbolic";
 		icons << "weather-few-clouds-night";
 		break;
 	case WeatherConditions::WeatherIcon::Overcast:
+		fallback = ":/icons/weather-overcast";
 		icons << "weather-overcast-symbolic";
 		icons << "weather-overcast";
 		break;
 	case WeatherConditions::WeatherIcon::Showers:
+		fallback = ":/icons/weather-showers";
 		icons << "weather-showers-symbolic";
 		icons << "weather-showers";
 		break;
 	case WeatherConditions::WeatherIcon::ShowersScattered:
+		fallback = ":/icons/weather-showers";
 		icons << "weather-showers-scattered-symbolic";
 		icons << "weather-showers-scattered";
 		break;
 	case WeatherConditions::WeatherIcon::Fog:
+		fallback = ":/icons/weather-fog";
 		icons << "weather-fog-symbolic";
 		icons << "weather-fog";
 		break;
 	case WeatherConditions::WeatherIcon::Snow:
+		fallback = ":/icons/weather-snow";
 		icons << "weather-snow-symbolic";
 		icons << "weather-snow";
 		break;
 	case WeatherConditions::WeatherIcon::Storm:
+		fallback = ":/icons/weather-storm";
 		icons << "weather-storm-symbolic";
 		icons << "weather-storm";
 		break;
 	case WeatherConditions::WeatherIcon::SevereAlert:
+		fallback = ":/icons/weather-severe-alert";
 		icons << "weather-severe-alert-symbolic";
 		icons << "weather-severe-alert";
 		break;
 	}
+
+// By default, only X11 supports themed icons, and we are not going to
+// install our theme on the user's operating system. However, we will
+// ship bundled resources for systems other than Linux.
+#ifdef Q_WS_X11
 
 	// iterate over icon candidates and set the first one which is available
 	for (QStringList::ConstIterator it = icons.begin(); it != icons.end(); it++) {
@@ -114,6 +131,13 @@ void SystemTrayWidget::updateIcon() {
 	}
 
 	qWarning() << "Weather status icon not found:" << icons;
+
+#endif // Q_WS_X11
+
+	// NOTE: If themed icon was not found and windy was build without bundled
+	//       icon pack, we might end up with a "blank" tray icon. Such a case
+	//       should be treated as a misconfiguration, not a bug.
+	m_tray_icon.setIcon(QIcon(fallback));
 }
 
 void SystemTrayWidget::updateToolTip() {

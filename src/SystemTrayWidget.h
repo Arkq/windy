@@ -37,6 +37,13 @@ private slots:
 	void dispatchIconActivation(QSystemTrayIcon::ActivationReason reason);
 	void dispatchMenuAction();
 
+protected:
+	QString getLabelNotAvailable() const { return tr("n/a"); }
+	QString getUnitDistance() const;
+	QString getUnitPressure() const;
+	QString getUnitSpeed() const;
+	QString getUnitTemperature() const;
+
 signals:
 	void iconActivated(QSystemTrayIcon::ActivationReason reason);
 	void menuActionTriggered(SystemTrayWidget::MenuAction action);

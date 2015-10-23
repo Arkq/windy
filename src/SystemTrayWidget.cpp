@@ -144,20 +144,15 @@ void SystemTrayWidget::updateToolTip() {
 
 	Settings *settings = Settings::settings();
 
-	QString unitTemperature;
-	QString unitPressure;
-	QString unitDistance;
-	QString unitSpeed;
-
-	QString temperature(tr("n/a"));
-	QString pressure(tr("n/a"));
-	QString windSpeed(tr("n/a"));
-	QString windGustSpeed(tr("n/a"));
-	QString windDirection(tr("n/a"));
-	QString windChill(tr("n/a"));
-	QString humidity(tr("n/a"));
-	QString dewPoint(tr("n/a"));
-	QString visibility(tr("n/a"));
+	QString temperature(getLabelNotAvailable());
+	QString pressure(getLabelNotAvailable());
+	QString windSpeed(getLabelNotAvailable());
+	QString windGustSpeed(getLabelNotAvailable());
+	QString windDirection(getLabelNotAvailable());
+	QString windChill(getLabelNotAvailable());
+	QString humidity(getLabelNotAvailable());
+	QString dewPoint(getLabelNotAvailable());
+	QString visibility(getLabelNotAvailable());
 
 	if (m_conditions.windDirection != -1)
 		windDirection.setNum(m_conditions.windDirection, 'f', 0);
@@ -166,7 +161,6 @@ void SystemTrayWidget::updateToolTip() {
 
 	switch (settings->getUnitTemperature()) {
 	case Settings::UnitTemperature::Celsius:
-		unitTemperature = trUtf8("°C");
 		if (m_conditions.temperature != -1)
 			temperature.setNum(m_conditions.temperature - 273.15, 'f', 1);
 		if (m_conditions.windChill != -1)
@@ -175,7 +169,6 @@ void SystemTrayWidget::updateToolTip() {
 			dewPoint.setNum(m_conditions.dewPoint - 273.15, 'f', 1);
 		break;
 	case Settings::UnitTemperature::Fahrenheit:
-		unitTemperature = trUtf8("°F");
 		if (m_conditions.temperature != -1)
 			temperature.setNum((m_conditions.temperature - 273.15) * 1.8 + 32, 'f', 1);
 		if (m_conditions.windChill != -1)
@@ -184,7 +177,6 @@ void SystemTrayWidget::updateToolTip() {
 			dewPoint.setNum((m_conditions.dewPoint - 273.15) * 1.8 + 32, 'f', 1);
 		break;
 	case Settings::UnitTemperature::Kelvin:
-		unitTemperature = trUtf8("K");
 		if (m_conditions.temperature != -1)
 			temperature.setNum(m_conditions.temperature, 'f', 1);
 		if (m_conditions.windChill != -1)
@@ -196,17 +188,14 @@ void SystemTrayWidget::updateToolTip() {
 
 	switch (settings->getUnitPressure()) {
 	case Settings::UnitPressure::Hectopascal:
-		unitPressure = trUtf8("hPa");
 		if (m_conditions.pressure != -1)
 			pressure.setNum(m_conditions.pressure / 100, 'f', 0);
 		break;
 	case Settings::UnitPressure::PoundPerSquareInch:
-		unitPressure = trUtf8("psi");
 		if (m_conditions.pressure != -1)
 			pressure.setNum(m_conditions.pressure / 6894.75729, 'f', 1);
 		break;
 	case Settings::UnitPressure::MillimeterOfMercury:
-		unitPressure = trUtf8("mmHg");
 		if (m_conditions.pressure != -1)
 			pressure.setNum(m_conditions.pressure / 133.3224, 'f', 0);
 		break;
@@ -214,8 +203,6 @@ void SystemTrayWidget::updateToolTip() {
 
 	switch (settings->getUnitWindSpeed()) {
 	case Settings::UnitWindSpeed::KilometerPerHour:
-		unitDistance = trUtf8("km");
-		unitSpeed = trUtf8("km/h");
 		if (m_conditions.windSpeed != -1)
 			windSpeed.setNum(m_conditions.windSpeed * 3.6, 'f', 0);
 		if (m_conditions.windGustSpeed != -1)
@@ -224,8 +211,6 @@ void SystemTrayWidget::updateToolTip() {
 			visibility.setNum(m_conditions.visibility / 1000, 'f', 1);
 		break;
 	case Settings::UnitWindSpeed::MilePerHour:
-		unitDistance = trUtf8("mi.");
-		unitSpeed = trUtf8("MpH");
 		if (m_conditions.windSpeed != -1)
 			windSpeed.setNum(m_conditions.windSpeed / 0.44704, 'f', 0);
 		if (m_conditions.windGustSpeed != -1)
@@ -234,8 +219,6 @@ void SystemTrayWidget::updateToolTip() {
 			visibility.setNum(m_conditions.visibility / 1609.3472, 'f', 1);
 		break;
 	case Settings::UnitWindSpeed::MeterPerSecond:
-		unitDistance = trUtf8("m");
-		unitSpeed = trUtf8("m/s");
 		if (m_conditions.windSpeed != -1)
 			windSpeed.setNum(m_conditions.windSpeed, 'f', 1);
 		if (m_conditions.windGustSpeed != -1)
@@ -288,10 +271,10 @@ void SystemTrayWidget::updateToolTip() {
 		messageTemplate += tr("Pressure: {PRES} {P}<br/>");
 
 	m_tray_icon.setToolTip(messageTemplate
-			.replace("{T}", unitTemperature)
-			.replace("{P}", unitPressure)
-			.replace("{D}", unitDistance)
-			.replace("{S}", unitSpeed)
+			.replace("{T}", getUnitTemperature())
+			.replace("{P}", getUnitPressure())
+			.replace("{D}", getUnitDistance())
+			.replace("{S}", getUnitSpeed())
 			.replace("{NAME}", locationName)
 			.replace("{TEMP}", temperature)
 			.replace("{PRES}", pressure)
@@ -326,4 +309,80 @@ void SystemTrayWidget::dispatchMenuAction() {
 	else if (action == &m_action_quit)
 		emit menuActionTriggered(MenuAction::Quit);
 
+}
+
+QString SystemTrayWidget::getUnitDistance() const {
+
+	QString unit;
+
+	switch (Settings::settings()->getUnitWindSpeed()) {
+	case Settings::UnitWindSpeed::KilometerPerHour:
+		unit = trUtf8("km");
+		break;
+	case Settings::UnitWindSpeed::MilePerHour:
+		unit = trUtf8("mi.");
+		break;
+	case Settings::UnitWindSpeed::MeterPerSecond:
+		unit = trUtf8("m");
+		break;
+	}
+
+	return unit;
+}
+
+QString SystemTrayWidget::getUnitPressure() const {
+
+	QString unit;
+
+	switch (Settings::settings()->getUnitPressure()) {
+	case Settings::UnitPressure::Hectopascal:
+		unit = trUtf8("hPa");
+		break;
+	case Settings::UnitPressure::PoundPerSquareInch:
+		unit = trUtf8("psi");
+		break;
+	case Settings::UnitPressure::MillimeterOfMercury:
+		unit = trUtf8("mmHg");
+		break;
+	}
+
+	return unit;
+}
+
+QString SystemTrayWidget::getUnitSpeed() const {
+
+	QString unit;
+
+	switch (Settings::settings()->getUnitWindSpeed()) {
+	case Settings::UnitWindSpeed::KilometerPerHour:
+		unit = trUtf8("km/h");
+		break;
+	case Settings::UnitWindSpeed::MilePerHour:
+		unit = trUtf8("MpH");
+		break;
+	case Settings::UnitWindSpeed::MeterPerSecond:
+		unit = trUtf8("m/s");
+		break;
+	}
+
+	return unit;
+}
+
+QString SystemTrayWidget::getUnitTemperature() const {
+
+	QString unit;
+
+	switch (Settings::settings()->getUnitTemperature()) {
+	case Settings::UnitTemperature::Celsius:
+		unit = trUtf8("°C");
+		break;
+	case Settings::UnitTemperature::Fahrenheit:
+		unit = trUtf8("°F");
+		break;
+	case Settings::UnitTemperature::Kelvin:
+		unit = trUtf8("K");
+		break;
+	}
+
+	return unit;
 }

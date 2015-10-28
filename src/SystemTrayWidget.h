@@ -39,6 +39,7 @@ private slots:
 
 protected:
 	QString getLabelNotAvailable() const { return tr("n/a"); }
+	QString getLabelWindDirection(float direction) const;
 	QString getUnitDistance() const;
 	QString getUnitPressure() const;
 	QString getUnitSpeed() const;

@@ -155,7 +155,7 @@ void SystemTrayWidget::updateToolTip() {
 	QString visibility(getLabelNotAvailable());
 
 	if (m_conditions.windDirection != -1)
-		windDirection.setNum(m_conditions.windDirection, 'f', 0);
+		windDirection = getLabelWindDirection(m_conditions.windDirection);
 	if (m_conditions.humidity != -1)
 		humidity.setNum(m_conditions.humidity, 'f', 0);
 
@@ -262,7 +262,7 @@ void SystemTrayWidget::updateToolTip() {
 		else
 			windTemplate = tr("Wind: {WIND} {S}");
 		if (m_conditions.windDirection != -1)
-			windTemplate += trUtf8(" {WDIR}°");
+			windTemplate += tr(" {WDIR}");
 		messageTemplate += windTemplate + "<br/>";
 	}
 	if (settings->getShowVisibility())
@@ -309,6 +309,18 @@ void SystemTrayWidget::dispatchMenuAction() {
 	else if (action == &m_action_quit)
 		emit menuActionTriggered(MenuAction::Quit);
 
+}
+
+QString SystemTrayWidget::getLabelWindDirection(float direction) const {
+
+	QStringList labels({
+			tr("N"), tr("NW"), tr("W"), tr("SW"),
+			tr("S"), tr("SE"), tr("E"), tr("NE"),
+	});
+
+	// NOTE: This algorithm will not work correctly for directions with negative
+	//       value. Such a restriction is not a problem for us, though.
+	return labels[(qRound(direction + 180.0 / labels.size()) * labels.size() / 360) % labels.size()];
 }
 
 QString SystemTrayWidget::getUnitDistance() const {

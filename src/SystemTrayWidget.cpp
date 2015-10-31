@@ -256,19 +256,27 @@ void SystemTrayWidget::updateToolTip() {
 			messageTemplate += tr("Temperature: {TEMP} {T}<br/>");
 	}
 	if (settings->getShowWindSpeed()) {
-		QString windTemplate;
 		if (settings->getShowWindGustSpeed())
-			windTemplate = tr("Wind: {WIND} ({GUST}) {S}");
+			messageTemplate += tr("Wind: {WIND} ({GUST}) {S}");
 		else
-			windTemplate = tr("Wind: {WIND} {S}");
+			messageTemplate += tr("Wind: {WIND} {S}");
 		if (m_conditions.windDirection != -1)
-			windTemplate += tr(" {WDIR}");
-		messageTemplate += windTemplate + "<br/>";
+			messageTemplate += tr(" {WDIR}");
+		messageTemplate += tr("<br/>");
 	}
 	if (settings->getShowVisibility())
 		messageTemplate += tr("Visibility: {VISIB} {D}<br/>");
 	if (settings->getShowPressure())
 		messageTemplate += tr("Pressure: {PRES} {P}<br/>");
+
+// Rich formated text support is available in the X11-like environments only.
+// On other platforms, tooltips are displayed using native widgets which lack
+// such a functionality.
+#ifndef Q_WS_X11
+	messageTemplate.replace("<br/>", "\n");
+	messageTemplate.remove(QRegExp("<[^>]*>"));
+	messageTemplate = messageTemplate.trimmed();
+#endif // Q_WS_X11
 
 	m_tray_icon.setToolTip(messageTemplate
 			.replace("{T}", getUnitTemperature())

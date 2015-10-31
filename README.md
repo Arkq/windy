@@ -13,8 +13,10 @@ such a handy feature. This application does not rely on any non-standard ways of
 the notification area and is not dependent on any bulky library (except Qt... - sorry GTK fans).
 It should work on any operating system supported by the Qt framework, which has system tray icon
 area available. If you are brave enough, you can compile and run this application on Windows as
-well.
+well (see screenshots below).
 
+![Screenshot1](/../screenshots/screenshots/win10-windy-clear.png?raw=true)
+![Screenshot2](/../screenshots/screenshots/win10-windy-clear-night.png?raw=true)
 
 Weather condition sources
 -------------------------

@@ -58,6 +58,13 @@ void ServiceGoogleSearch::dispatchCurrentConditions() {
 		QString html(QString::fromUtf8(reply->readAll()));
 		QStringRef weatherHtml;
 
+		// XXX: Result page seems to be heavily optimized (or messy written) for
+		//      modern, forgiving HTML parsers. If page is correctly displayed,
+		//      there is no need to bother about XML structure correctness, YOLO!
+		//      Qt XML parser is very strict in that aspect, so it is impossible
+		//      to parse modern HTML5 document..., but if we modify it a little
+		//      bit, it might be possible to parse its small (localized) part.
+
 		// rewind HTML content to the interesting stuff - weather conditions
 		weatherHtml = html.midRef(html.indexOf("id=\"wob_wc\""));
 		weatherHtml = html.midRef(weatherHtml.indexOf('<') + weatherHtml.position());
@@ -67,7 +74,12 @@ void ServiceGoogleSearch::dispatchCurrentConditions() {
 		// us a lot if location name contains HTML entities...
 		html = weatherHtml.toString().left(5000).remove('&');
 
-		QXmlStreamReader xml("<root>" + html);
+		// Remove every image tag from the document except the one which contains
+		// weather condition icon. Image tag might not be correctly closed, which
+		// will break our XML reader.
+		html.remove(QRegExp("<img((?!wob_tci)[^>])*>"));
+
+		QXmlStreamReader xml("<root><div>" + html);
 		while (!xml.atEnd())
 			if (xml.readNextStartElement()) {
 

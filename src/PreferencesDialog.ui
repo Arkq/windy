@@ -249,7 +249,7 @@
          <property name="checkable">
           <bool>true</bool>
          </property>
-         <layout class="QFormLayout" name="formLayout">
+         <layout class="QFormLayout" name="formLayoutWUnd">
           <item row="0" column="0">
            <widget class="QLabel" name="labelWUndKey">
             <property name="text">
@@ -291,6 +291,25 @@
          <property name="checkable">
           <bool>true</bool>
          </property>
+         <layout class="QFormLayout" name="formLayoutYahoo">
+          <item row="0" column="0">
+           <widget class="QLabel" name="labelYahooLocation">
+            <property name="text">
+             <string>Location:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEditYahooLocation">
+            <property name="toolTip">
+             <string>&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;&lt;tt&gt;location&lt;/tt&gt;&lt;/td&gt;&lt;td align=&quot;right&quot;&gt;&lt;i&gt;&lt;nobr&gt;(e.g. Sydney, AU)&lt;/nobr&gt;&lt;/i&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;tt&gt;WOEID&lt;/tt&gt;&lt;/td&gt;&lt;td align=&quot;right&quot;&gt;&lt;i&gt;&lt;nobr&gt;(e.g. 44418)&lt;/nobr&gt;&lt;/i&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>

@@ -24,7 +24,7 @@ Weather condition sources
 1. [Google search results page](https://www.google.com/search?q=weather)
 2. [The Weather Channel](http://www.weather.com/) via its underground weather API ([API
 	 key](http://www.wunderground.com/weather/api) is required)
-3. [Yahoo Weather](https://weather.yahoo.com/) via its API (API key is required)
+3. [Yahoo Weather](https://weather.yahoo.com/) via its weather RSS
 
 **Note:** It seems, that the main and the only data provider for all available weather condition
 reporting services is The Weather Channel. However, there are some discrepancies between data

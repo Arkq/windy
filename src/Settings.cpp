@@ -49,9 +49,9 @@ void Settings::load() {
 	settings.beginGroup("Service");
 	m_data_update_interval = settings.value("UpdateInterval", m_data_update_interval).toInt();
 	m_data_service = static_cast<WeatherService>(settings.value("Service", static_cast<int>(m_data_service)).toInt());
-	m_yahoo_api_key = settings.value("YahooApiKey").toString();
 	m_wu_api_key = settings.value("WUndergroundApiKey").toString();
 	m_wu_location = settings.value("WUndergroundLocation", m_wu_location).toString();
+	m_yahoo_location = settings.value("YahooLocation").toString();
 	settings.endGroup();
 
 }
@@ -78,9 +78,9 @@ void Settings::save() {
 	settings.beginGroup("Service");
 	settings.setValue("UpdateInterval", m_data_update_interval);
 	settings.setValue("Service", static_cast<int>(m_data_service));
-	settings.setValue("YahooApiKey", m_yahoo_api_key);
 	settings.setValue("WUndergroundApiKey", m_wu_api_key);
 	settings.setValue("WUndergroundLocation", m_wu_location);
+	settings.setValue("YahooLocation", m_yahoo_location);
 	settings.endGroup();
 
 }

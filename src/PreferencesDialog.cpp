@@ -44,6 +44,7 @@ void PreferencesDialog::loadSettings() {
 
 	m_ui->lineEditWUndKey->setText(settings->getWUndergroundApiKey());
 	m_ui->lineEditWUndLocation->setText(settings->getWUndergroundLocation());
+	m_ui->lineEditYahooLocation->setText(settings->getYahooLocation());
 
 	m_ui->checkBoxPress->setChecked(settings->getShowPressure());
 	m_ui->checkBoxTemp->setChecked(settings->getShowTemperature());
@@ -107,6 +108,7 @@ void PreferencesDialog::saveSettings() {
 
 	settings->setWUndergroundApiKey(m_ui->lineEditWUndKey->text());
 	settings->setWUndergroundLocation(m_ui->lineEditWUndLocation->text());
+	settings->setYahooLocation(m_ui->lineEditYahooLocation->text());
 
 	settings->setShowPressure(m_ui->checkBoxPress->isChecked());
 	settings->setShowTemperature(m_ui->checkBoxTemp->isChecked());

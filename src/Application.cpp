@@ -79,6 +79,7 @@ void Application::setupWeatherService() {
 		break;
 	case Settings::WeatherService::YahooWeather:
 		m_service = new ServiceYahooWeather(this);
+		m_service->setLocation(m_settings.getYahooLocation());
 		break;
 	default:
 		break;

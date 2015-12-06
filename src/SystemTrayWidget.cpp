@@ -37,19 +37,27 @@ SystemTrayWidget::SystemTrayWidget(QObject *parent) :
 	m_conditions.icon = WeatherConditions::WeatherIcon::Clear;
 	updateIcon();
 
+	m_tray_icon.setToolTip(tr("Windy - Minimalistic weather indicator"));
 	m_tray_icon.show();
 
 }
 
 void SystemTrayWidget::setWeatherConditions(const WeatherConditions &conditions) {
 
-	// update our internal weather conditions structure
-	m_conditions = conditions;
-
 	dumpWeatherConditions(conditions);
 
-	updateIcon();
-	updateToolTip();
+	// If the location name is not set, it will most likely mean, that the request
+	// has failed - it might be a temporary network connection failure, or a 3rd
+	// party service malfunction. In such a case do not update our widget.
+	if (!conditions.locationName.isEmpty()) {
+
+		// update our internal weather conditions structure
+		m_conditions = conditions;
+
+		updateIcon();
+		updateToolTip();
+
+	}
 
 }
 

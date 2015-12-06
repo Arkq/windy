@@ -41,13 +41,7 @@ bool ServiceYahooWeather::fetchCurrentConditions() {
 
 void ServiceYahooWeather::dispatchCurrentConditions() {
 
-	// initialize condition structure with "zeroed" values
-	WeatherConditions conditions = {
-		"", "", 0, 0, 0,
-		QDateTime::currentDateTime(),
-		WeatherConditions::WeatherIcon::Clear,
-		-1, -1, -1, -1, -1, -1, -1, -1, -1
-	};
+	WeatherConditions conditions = getEmptyWeatherConditions();
 
 	QNetworkReply *reply = qobject_cast<QNetworkReply *>(sender());
 	QXmlStreamReader xml(reply);

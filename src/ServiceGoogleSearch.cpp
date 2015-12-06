@@ -47,13 +47,7 @@ void ServiceGoogleSearch::dispatchCurrentConditions() {
 	}
 	else {
 
-		// initialize condition structure with "zeroed" values
-		WeatherConditions conditions = {
-			"", "", 0, 0, 0,
-			QDateTime::currentDateTime(),
-			WeatherConditions::WeatherIcon::Clear,
-			-1, -1, -1, -1, -1, -1, -1, -1, -1
-		};
+		WeatherConditions conditions = getEmptyWeatherConditions();
 
 		QString html(QString::fromUtf8(reply->readAll()));
 		QStringRef weatherHtml;

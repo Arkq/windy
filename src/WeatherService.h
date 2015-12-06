@@ -72,6 +72,16 @@ public:
 	// get weather conditions URL (for opening in external web browser)
 	virtual QString getConditionsUrl() { return QString(); }
 
+	// initialize condition structure with "zeroed" values
+	static WeatherConditions getEmptyWeatherConditions() {
+		return WeatherConditions({
+			"", "", 0, 0, 0,
+			QDateTime::currentDateTime(),
+			WeatherConditions::WeatherIcon::Clear,
+			-1, -1, -1, -1, -1, -1, -1, -1, -1
+		});
+	}
+
 public slots:
 	virtual bool fetchCurrentConditions() = 0;
 	virtual bool fetchForecastConditions() = 0;

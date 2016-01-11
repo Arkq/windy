@@ -5,8 +5,8 @@
 //
 // This projected is licensed under the terms of the MIT license.
 
-#ifndef __SERVICE_YAHOO_WEATHER_H
-#define __SERVICE_YAHOO_WEATHER_H
+#ifndef WINDY_SERVICE_YAHOO_WEATHER_H_
+#define WINDY_SERVICE_YAHOO_WEATHER_H_
 
 #include "WeatherService.h"
 

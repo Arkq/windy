@@ -5,8 +5,8 @@
 //
 // This projected is licensed under the terms of the MIT license.
 
-#ifndef __SETTINGS_H
-#define __SETTINGS_H
+#ifndef WINDY_SETTINGS_H_
+#define WINDY_SETTINGS_H_
 
 #include <QMetaType>
 #include <QObject>

@@ -5,8 +5,8 @@
 //
 // This projected is licensed under the terms of the MIT license.
 
-#ifndef __APPLICATION_H
-#define __APPLICATION_H
+#ifndef WINDY_APPLICATION_H_
+#define WINDY_APPLICATION_H_
 
 #include <QApplication>
 

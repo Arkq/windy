@@ -5,8 +5,8 @@
 //
 // This projected is licensed under the terms of the MIT license.
 
-#ifndef __WEATHER_SERVICE_H
-#define __WEATHER_SERVICE_H
+#ifndef WINDY_WEATHER_SERVICE_H_
+#define WINDY_WEATHER_SERVICE_H_
 
 #include <QDateTime>
 #include <QDebug>

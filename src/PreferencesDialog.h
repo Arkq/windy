@@ -5,8 +5,8 @@
 //
 // This projected is licensed under the terms of the MIT license.
 
-#ifndef __PREFERENCES_DIALOG_H
-#define __PREFERENCES_DIALOG_H
+#ifndef WINDY_PREFERENCES_DIALOG_H_
+#define WINDY_PREFERENCES_DIALOG_H_
 
 #include <QDialog>
 #include <QScopedPointer>

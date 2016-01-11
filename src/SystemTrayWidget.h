@@ -5,8 +5,8 @@
 //
 // This projected is licensed under the terms of the MIT license.
 
-#ifndef __SYSTEM_TRAY_H
-#define __SYSTEM_TRAY_H
+#ifndef WINDY_SYSTEM_TRAY_H_
+#define WINDY_SYSTEM_TRAY_H_
 
 #include <QAction>
 #include <QMenu>

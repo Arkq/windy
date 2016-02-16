@@ -1,5 +1,5 @@
 // Windy - PreferencesDialog.cpp
-// Copyright (c) 2015 Arkadiusz Bokowy
+// Copyright (c) 2015-2016 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -38,6 +38,9 @@ void PreferencesDialog::loadSettings() {
 	Settings *settings = Settings::settings();
 
 	m_ui->spinBoxUpdateInterval->setValue(settings->getDataUpdateInterval());
+
+	m_ui->groupCommand->setChecked(settings->getUseCustomCommand());
+	m_ui->lineEditCommand->setText(settings->getCustomCommand());
 
 	// enable selected service
 	maintainServices();
@@ -96,6 +99,9 @@ void PreferencesDialog::saveSettings() {
 	Settings *settings = Settings::settings();
 
 	settings->setDataUpdateInterval(m_ui->spinBoxUpdateInterval->value());
+
+	settings->setUseCustomCommand(m_ui->groupCommand->isChecked());
+	settings->setCustomCommand(m_ui->lineEditCommand->text());
 
 	if (m_ui->groupGoogle->isChecked())
 		settings->setDataService(Settings::WeatherService::GoogleSearch);

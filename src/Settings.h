@@ -1,5 +1,5 @@
 // Windy - Settings.h
-// Copyright (c) 2015 Arkadiusz Bokowy
+// Copyright (c) 2015-2016 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -55,6 +55,11 @@ public:
 	const QString &getYahooLocation() const { return m_yahoo_location; }
 	void setYahooLocation(const QString &value) { m_yahoo_location = value; }
 
+	bool getUseCustomCommand() const { return m_use_custom_command; }
+	void setUseCustomCommand(bool value) { m_use_custom_command = value; }
+	const QString &getCustomCommand() const { return m_custom_command; }
+	void setCustomCommand(const QString &value) { m_custom_command = value; }
+
 	UnitPressure getUnitPressure() const { return m_unit_pressure; }
 	void setUnitPressure(UnitPressure value) { m_unit_pressure = value; }
 	UnitTemperature getUnitTemperature() const { return m_unit_temperature; }
@@ -89,6 +94,9 @@ private:
 	QString m_wu_api_key;
 	QString m_wu_location;
 	QString m_yahoo_location;
+
+	bool m_use_custom_command;
+	QString m_custom_command;
 
 	UnitPressure m_unit_pressure;
 	UnitTemperature m_unit_temperature;

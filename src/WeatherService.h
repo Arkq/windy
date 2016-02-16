@@ -114,7 +114,7 @@ inline void dumpWeatherConditions(const WeatherConditions &conditions) {
 	qDebug() << "wind chill:" << conditions.windChill << "K";
 	qDebug() << "humidity:" << conditions.humidity << "%";
 	qDebug() << "dew point:" << conditions.dewPoint << "K";
-	qDebug() << "visibility" << conditions.visibility << "m";
+	qDebug() << "visibility:" << conditions.visibility << "m";
 }
 
 #endif

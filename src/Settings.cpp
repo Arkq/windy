@@ -1,5 +1,5 @@
 // Windy - Settings.cpp
-// Copyright (c) 2015 Arkadiusz Bokowy
+// Copyright (c) 2015-2016 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -16,6 +16,7 @@ Settings::Settings(QObject *parent) :
 		QObject(parent),
 		m_data_update_interval(60),
 		m_data_service(WeatherService::GoogleSearch),
+		m_use_custom_command(false),
 		m_unit_pressure(UnitPressure::Hectopascal),
 		m_unit_temperature(UnitTemperature::Celsius),
 		m_unit_wind_speed(UnitWindSpeed::KilometerPerHour),
@@ -51,7 +52,12 @@ void Settings::load() {
 	m_data_service = static_cast<WeatherService>(settings.value("Service", static_cast<int>(m_data_service)).toInt());
 	m_wu_api_key = settings.value("WUndergroundApiKey").toString();
 	m_wu_location = settings.value("WUndergroundLocation", m_wu_location).toString();
-	m_yahoo_location = settings.value("YahooLocation").toString();
+	m_yahoo_location = settings.value("YahooLocation", m_yahoo_location).toString();
+	settings.endGroup();
+
+	settings.beginGroup("Misc");
+	m_use_custom_command = settings.value("UseCustomCmd", m_use_custom_command).toBool();
+	m_custom_command = settings.value("CustomCmd", m_custom_command).toString();
 	settings.endGroup();
 
 }
@@ -81,6 +87,11 @@ void Settings::save() {
 	settings.setValue("WUndergroundApiKey", m_wu_api_key);
 	settings.setValue("WUndergroundLocation", m_wu_location);
 	settings.setValue("YahooLocation", m_yahoo_location);
+	settings.endGroup();
+
+	settings.beginGroup("Misc");
+	settings.setValue("UseCustomCmd", m_use_custom_command);
+	settings.setValue("CustomCmd", m_custom_command);
 	settings.endGroup();
 
 }

@@ -1,5 +1,5 @@
 // Windy - Application.h
-// Copyright (c) 2015 Arkadiusz Bokowy
+// Copyright (c) 2015-2016 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -33,7 +33,7 @@ public:
 	}
 
 public slots:
-	void openWeatherConditionsExternalUrl();
+	void performUserAction();
 	void updateWeatherConditions();
 	void showPreferencesDialog();
 

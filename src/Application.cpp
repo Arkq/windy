@@ -1,5 +1,5 @@
 // Windy - Application.cpp
-// Copyright (c) 2015 Arkadiusz Bokowy
+// Copyright (c) 2015-2016 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -9,6 +9,7 @@
 
 #include <QDesktopServices>
 #include <QMessageBox>
+#include <QProcess>
 #include <QUrl>
 
 #include "PreferencesDialog.h"
@@ -34,7 +35,7 @@ Application::Application(int &argc, char **argv) :
 
 	// handle click events from the tray icon widget
 	connect(&m_tray_widget, SIGNAL(iconActivated(QSystemTrayIcon::ActivationReason)),
-			this, SLOT(openWeatherConditionsExternalUrl()));
+			this, SLOT(performUserAction()));
 
 	// handle menu events from the tray icon widget
 	connect(&m_tray_widget, SIGNAL(menuActionTriggered(SystemTrayWidget::MenuAction)),
@@ -45,10 +46,14 @@ Application::Application(int &argc, char **argv) :
 
 }
 
-void Application::openWeatherConditionsExternalUrl() {
-	QString conditionsUrl(m_service->getConditionsUrl());
-	if (!conditionsUrl.isEmpty())
-		QDesktopServices::openUrl(QUrl(conditionsUrl));
+void Application::performUserAction() {
+	if (m_settings.getUseCustomCommand())
+		QProcess::startDetached(m_settings.getCustomCommand());
+	else {
+		QString conditionsUrl(m_service->getConditionsUrl());
+		if (!conditionsUrl.isEmpty())
+			QDesktopServices::openUrl(QUrl(conditionsUrl));
+	}
 }
 
 void Application::updateWeatherConditions() {

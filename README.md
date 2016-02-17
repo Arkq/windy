@@ -1,5 +1,5 @@
-Windy - Minimalistic weather indicator
-======================================
+Windy [![Build Status](https://travis-ci.org/Arkq/windy.svg?branch=master)](https://travis-ci.org/Arkq/windy)
+=====
 
 This application is a minimalistic, system tray based, current weather condition indicator. It is
 written purely in Qt without any external dependencies.

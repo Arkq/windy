@@ -329,7 +329,15 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayoutCmd">
           <item>
-           <widget class="QLineEdit" name="lineEditCommand"/>
+           <widget class="QLineEdit" name="lineEditCommand">
+            <property name="toolTip">
+             <string>&lt;p&gt;Supported placeholders:&lt;/p&gt;
+&lt;table&gt;
+&lt;tr&gt;&lt;td&gt;&lt;tt&gt;%L&lt;/tt&gt; - &lt;/td&gt;&lt;td align=&quot;right&quot;&gt;&lt;nobr&gt;user defined location&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;&lt;tt&gt;%%&lt;/tt&gt; - &lt;/td&gt;&lt;td align=&quot;right&quot;&gt;&lt;nobr&gt;% character&lt;/nobr&gt;&lt;/td&gt;&lt;/tr&gt;
+&lt;/table&gt;</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>

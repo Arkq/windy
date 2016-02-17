@@ -47,8 +47,12 @@ Application::Application(int &argc, char **argv) :
 }
 
 void Application::performUserAction() {
-	if (m_settings.getUseCustomCommand())
-		QProcess::startDetached(m_settings.getCustomCommand());
+	if (m_settings.getUseCustomCommand()) {
+		QString command(m_settings.getCustomCommand());
+		QProcess::startDetached(command
+				.replace(QRegExp("([^%])%L"), "\\1" + m_service->getLocation())
+				.replace("%%", "%"));
+	}
 	else {
 		QString conditionsUrl(m_service->getConditionsUrl());
 		if (!conditionsUrl.isEmpty())

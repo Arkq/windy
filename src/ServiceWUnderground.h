@@ -3,7 +3,7 @@
 //
 // This file is a part of Windy.
 //
-// This projected is licensed under the terms of the MIT license.
+// This project is licensed under the terms of the MIT license.
 
 #ifndef WINDY_SERVICE_WUNDERGROUN_H_
 #define WINDY_SERVICE_WUNDERGROUN_H_

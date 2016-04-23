@@ -3,7 +3,7 @@
 //
 // This file is a part of Windy.
 //
-// This projected is licensed under the terms of the MIT license.
+// This project is licensed under the terms of the MIT license.
 
 #include "Application.h"
 
@@ -133,7 +133,7 @@ void Application::dispatchMenuAction(SystemTrayWidget::MenuAction action) {
 		QMessageBox::about(nullptr, tr("About Windy"), tr(
 					"<center><big><b>Windy - Minimalistic weather indicator</b></big>"
 					"<p>Copyright &copy; 2015 Arkadiusz Bokowy</p>"
-					"<p>This projected is licensed under the terms of the MIT license.</p>"
+					"<p>This project is licensed under the terms of the MIT license.</p>"
 					"<p><a href=\"%1\">%1</a></p></center>").arg(WINDY_HOMEPAGE));
 		break;
 	case SystemTrayWidget::MenuAction::Quit:

@@ -256,26 +256,25 @@ void SystemTrayWidget::updateToolTip() {
 
 	}
 
-	QString messageTemplate(tr("<b>{NAME}</b><br/>"));
+	QString messageTemplate(tr("<b>{NAME}</b>"));
 	if (settings->getShowTemperature()) {
 		if (settings->getShowWindChill())
-			messageTemplate += tr("Temperature: {TEMP} ({CHILL}) {T}<br/>");
+			messageTemplate += tr("<br/>Temperature: {TEMP} ({CHILL}) {T}");
 		else
-			messageTemplate += tr("Temperature: {TEMP} {T}<br/>");
+			messageTemplate += tr("<br/>Temperature: {TEMP} {T}");
 	}
 	if (settings->getShowWindSpeed()) {
 		if (settings->getShowWindGustSpeed())
-			messageTemplate += tr("Wind: {WIND} ({GUST}) {S}");
+			messageTemplate += tr("<br/>Wind: {WIND} ({GUST}) {S}");
 		else
-			messageTemplate += tr("Wind: {WIND} {S}");
+			messageTemplate += tr("<br/>Wind: {WIND} {S}");
 		if (m_conditions.windDirection != -1)
 			messageTemplate += tr(" {WDIR}");
-		messageTemplate += tr("<br/>");
 	}
 	if (settings->getShowVisibility())
-		messageTemplate += tr("Visibility: {VISIB} {D}<br/>");
+		messageTemplate += tr("<br/>Visibility: {VISIB} {D}");
 	if (settings->getShowPressure())
-		messageTemplate += tr("Pressure: {PRES} {P}<br/>");
+		messageTemplate += tr("<br/>Pressure: {PRES} {P}");
 
 // Rich formated text support is available in the X11-like environments only.
 // On other platforms, tooltips are displayed using native widgets which lack

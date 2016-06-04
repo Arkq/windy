@@ -1,5 +1,5 @@
 # Windy - windy.pro
-# Copyright (c) 2015 Arkadiusz Bokowy
+# Copyright (c) 2015-2016 Arkadiusz Bokowy
 
 TEMPLATE = app
 
@@ -49,4 +49,10 @@ FORMS += \
 
 contains(DEFINES, WITH_WEATHER_ICONS) {
 	RESOURCES += share/weather-icons.qrc
+}
+
+unix {
+	isEmpty(PREFIX): PREFIX = /usr/local
+	target.path = $$PREFIX/bin
+	INSTALLS += target
 }

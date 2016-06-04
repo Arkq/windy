@@ -1,11 +1,13 @@
 // Windy - SystemTrayWidget.cpp
-// Copyright (c) 2015 Arkadiusz Bokowy
+// Copyright (c) 2015-2016 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
 // This project is licensed under the terms of the MIT license.
 
 #include "SystemTrayWidget.h"
+
+#include <QBuffer>
 
 #include "Settings.h"
 
@@ -283,6 +285,17 @@ void SystemTrayWidget::updateToolTip() {
 	messageTemplate.replace("<br/>", "\n");
 	messageTemplate.remove(QRegExp("<[^>]*>"));
 	messageTemplate = messageTemplate.trimmed();
+#endif // Q_WS_X11
+
+#ifdef Q_WS_X11
+	QByteArray img;
+	QBuffer buffer(&img);
+	QString tableTemplate(tr("<table><tr><td valign=middle>{IMG}</td><td>{MSG}</td></tr></table>"));
+
+	m_tray_icon.icon().pixmap(32, 32).save(&buffer, "PNG");
+	messageTemplate = tableTemplate
+		.replace("{IMG}", QString("<img src='data:image/png;base64,%0'>").arg(img.toBase64().data()))
+		.replace("{MSG}", messageTemplate);
 #endif // Q_WS_X11
 
 	m_tray_icon.setToolTip(messageTemplate

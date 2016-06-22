@@ -25,7 +25,8 @@ Settings::Settings(QObject *parent) :
 		m_show_visibility(false),
 		m_show_wind_speed(true),
 		m_show_wind_chill(false),
-		m_show_wind_gust_speed(false) {
+		m_show_wind_gust_speed(false),
+		m_show_tooltip_icon(true) {
 }
 
 void Settings::load() {
@@ -39,6 +40,7 @@ void Settings::load() {
 	m_show_wind_chill = settings.value("WindChill", m_show_wind_chill).toBool();
 	m_show_wind_gust_speed = settings.value("WindGustSpeed", m_show_wind_gust_speed).toBool();
 	m_show_wind_speed = settings.value("WindSpeed", m_show_wind_speed).toBool();
+	m_show_tooltip_icon = settings.value("TooltipIcon", m_show_tooltip_icon).toBool();
 	settings.endGroup();
 
 	settings.beginGroup("Units");
@@ -73,6 +75,7 @@ void Settings::save() {
 	settings.setValue("WindChill", m_show_wind_chill);
 	settings.setValue("WindGustSpeed", m_show_wind_gust_speed);
 	settings.setValue("WindSpeed", m_show_wind_speed);
+	settings.setValue("TooltipIcon", m_show_tooltip_icon);
 	settings.endGroup();
 
 	settings.beginGroup("Units");

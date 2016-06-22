@@ -79,6 +79,8 @@ public:
 	void setShowWindGustSpeed(bool value) { m_show_wind_gust_speed = value; }
 	bool getShowWindSpeed() const { return m_show_wind_speed; }
 	void setShowWindSpeed(bool value) { m_show_wind_speed = value; }
+	bool getShowTooltipIcon() const { return m_show_tooltip_icon; }
+	void setShowTooltipIcon(bool value) { m_show_tooltip_icon = value; }
 
 	void load();
 	void save();
@@ -108,6 +110,7 @@ private:
 	bool m_show_wind_speed;
 	bool m_show_wind_chill;
 	bool m_show_wind_gust_speed;
+	bool m_show_tooltip_icon;
 
 };
 

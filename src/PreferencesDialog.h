@@ -24,6 +24,7 @@ public:
 	~PreferencesDialog();
 
 private slots:
+	virtual void accept();
 	virtual void loadSettings();
 	virtual void saveSettings();
 	virtual void maintainServices();

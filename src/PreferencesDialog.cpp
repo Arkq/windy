@@ -25,12 +25,14 @@ PreferencesDialog::PreferencesDialog(QWidget *parent) :
 	connect(m_ui->groupWUnd, SIGNAL(toggled(bool)), SLOT(maintainServices()));
 	connect(m_ui->groupYahoo, SIGNAL(toggled(bool)), SLOT(maintainServices()));
 
-	connect(m_ui->buttonBox, SIGNAL(accepted()), SLOT(saveSettings()));
-	connect(m_ui->buttonBox, SIGNAL(rejected()), SLOT(close()));
-
 }
 
 PreferencesDialog::~PreferencesDialog() {
+}
+
+void PreferencesDialog::accept() {
+	saveSettings();
+	QDialog::accept();
 }
 
 void PreferencesDialog::loadSettings() {
@@ -55,6 +57,7 @@ void PreferencesDialog::loadSettings() {
 	m_ui->checkBoxWind->setChecked(settings->getShowWindSpeed());
 	m_ui->checkBoxWindChill->setChecked(settings->getShowWindChill());
 	m_ui->checkBoxWindGust->setChecked(settings->getShowWindGustSpeed());
+	m_ui->checkBoxTooltipIcon->setChecked(settings->getShowTooltipIcon());
 
 	switch (settings->getUnitPressure()) {
 	case Settings::UnitPressure::Hectopascal:
@@ -122,6 +125,7 @@ void PreferencesDialog::saveSettings() {
 	settings->setShowWindSpeed(m_ui->checkBoxWind->isChecked());
 	settings->setShowWindChill(m_ui->checkBoxWindChill->isChecked());
 	settings->setShowWindGustSpeed(m_ui->checkBoxWindGust->isChecked());
+	settings->setShowTooltipIcon(m_ui->checkBoxTooltipIcon->isChecked());
 
 	if (m_ui->radioButtonPressHPA->isChecked())
 		settings->setUnitPressure(Settings::UnitPressure::Hectopascal);

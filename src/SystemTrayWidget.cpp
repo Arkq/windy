@@ -288,14 +288,16 @@ void SystemTrayWidget::updateToolTip() {
 #endif // Q_WS_X11
 
 #ifdef Q_WS_X11
-	QByteArray img;
-	QBuffer buffer(&img);
-	QString tableTemplate(tr("<table><tr><td valign=middle>{IMG}</td><td>{MSG}</td></tr></table>"));
+	if (settings->getShowTooltipIcon()) {
+		QByteArray img;
+		QBuffer buffer(&img);
+		QString tableTemplate(tr("<table><tr><td valign=middle>{IMG}</td><td>{MSG}</td></tr></table>"));
 
-	m_tray_icon.icon().pixmap(32, 32).save(&buffer, "PNG");
-	messageTemplate = tableTemplate
-		.replace("{IMG}", QString("<img src='data:image/png;base64,%0'>").arg(img.toBase64().data()))
-		.replace("{MSG}", messageTemplate);
+		m_tray_icon.icon().pixmap(32, 32).save(&buffer, "PNG");
+		messageTemplate = tableTemplate
+			.replace("{IMG}", QString("<img src='data:image/png;base64,%0'>").arg(img.toBase64().data()))
+			.replace("{MSG}", messageTemplate);
+	}
 #endif // Q_WS_X11
 
 	m_tray_icon.setToolTip(messageTemplate

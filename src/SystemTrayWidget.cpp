@@ -129,7 +129,7 @@ void SystemTrayWidget::updateIcon() {
 // By default, only X11 supports themed icons, and we are not going to
 // install our theme on the user's operating system. However, we will
 // ship bundled resources for systems other than Linux.
-#ifdef Q_WS_X11
+#ifdef Q_OS_LINUX
 
 	// iterate over icon candidates and set the first one which is available
 	for (QStringList::ConstIterator it = icons.begin(); it != icons.end(); it++) {
@@ -142,7 +142,7 @@ void SystemTrayWidget::updateIcon() {
 
 	qWarning() << "Weather status icon not found:" << icons;
 
-#endif // Q_WS_X11
+#endif // Q_OS_LINUX
 
 	// NOTE: If themed icon was not found and windy was build without bundled
 	//       icon pack, we might end up with a "blank" tray icon. Such a case
@@ -281,13 +281,13 @@ void SystemTrayWidget::updateToolTip() {
 // Rich formated text support is available in the X11-like environments only.
 // On other platforms, tooltips are displayed using native widgets which lack
 // such a functionality.
-#ifndef Q_WS_X11
+#ifndef Q_OS_LINUX
 	messageTemplate.replace("<br/>", "\n");
 	messageTemplate.remove(QRegExp("<[^>]*>"));
 	messageTemplate = messageTemplate.trimmed();
-#endif // Q_WS_X11
+#endif // Q_OS_LINUX
 
-#ifdef Q_WS_X11
+#ifdef Q_OS_LINUX
 	if (settings->getShowTooltipIcon()) {
 		QByteArray img;
 		QBuffer buffer(&img);
@@ -298,7 +298,7 @@ void SystemTrayWidget::updateToolTip() {
 			.replace("{IMG}", QString("<img src='data:image/png;base64,%0'>").arg(img.toBase64().data()))
 			.replace("{MSG}", messageTemplate);
 	}
-#endif // Q_WS_X11
+#endif // Q_OS_LINUX
 
 	m_tray_icon.setToolTip(messageTemplate
 			.replace("{T}", getUnitTemperature())

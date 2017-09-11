@@ -1,5 +1,5 @@
 // Windy - ServiceGoogleSearch.cpp
-// Copyright (c) 2015 Arkadiusz Bokowy
+// Copyright (c) 2015-2017 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -68,10 +68,8 @@ void ServiceGoogleSearch::dispatchCurrentConditions() {
 		// us a lot if location name contains HTML entities...
 		html = weatherHtml.toString().left(5000).remove('&');
 
-		// Remove every image tag from the document except the one which contains
-		// weather condition icon. Image tag might not be correctly closed, which
-		// will break our XML reader.
-		html.remove(QRegExp("<img((?!wob_tci)[^>])*>"));
+		// close every image tag in the document
+		html.replace(QRegExp("(<img[^>]*>)"), "\\1</img>");
 
 		QXmlStreamReader xml("<root><div>" + html);
 		while (!xml.atEnd())

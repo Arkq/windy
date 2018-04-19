@@ -1,5 +1,5 @@
 // Windy - ServiceGoogleSearch.cpp
-// Copyright (c) 2015-2017 Arkadiusz Bokowy
+// Copyright (c) 2015-2018 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -121,6 +121,6 @@ QNetworkRequest ServiceGoogleSearch::buildNetworkRequest(const QUrl &url) {
 	// Google handles tons of devices and browser versions, for each serving
 	// different type of search results. From our point of view, the most usable
 	// one, is the one which contains ID attributes in the weather section.
-	request.setRawHeader("User-Agent", "Mozilla/5.0 (Linux; Android 5.3) Gecko/20100101 Firefox/52.0");
+	request.setRawHeader("User-Agent", "Mozilla/5.0 (Linux) Gecko/20100101 Firefox/52.0");
 	return request;
 }

@@ -1,10 +1,10 @@
 # Windy - windy.pro
-# Copyright (c) 2015-2016 Arkadiusz Bokowy
+# Copyright (c) 2015-2018 Arkadiusz Bokowy
 
 TEMPLATE = app
 
 TARGET = windy
-VERSION = 0.1.0
+VERSION = 1.0.0
 
 CONFIG += qt
 CONFIG += c++11
@@ -52,7 +52,13 @@ contains(DEFINES, WITH_WEATHER_ICONS) {
 }
 
 unix {
+
 	isEmpty(PREFIX): PREFIX = /usr/local
-	target.path = $$PREFIX/bin
-	INSTALLS += target
+	BINDIR = $$PREFIX/bin
+
+	target.path = $$BINDIR
+	utils.path = $$BINDIR
+	utils.files = utils/icm-meteo
+
+	INSTALLS += target utils
 }

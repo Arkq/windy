@@ -1,5 +1,5 @@
 // Windy - Application.cpp
-// Copyright (c) 2015-2016 Arkadiusz Bokowy
+// Copyright (c) 2015-2018 Arkadiusz Bokowy
 //
 // This file is a part of Windy.
 //
@@ -132,7 +132,7 @@ void Application::dispatchMenuAction(SystemTrayWidget::MenuAction action) {
 	case SystemTrayWidget::MenuAction::About:
 		QMessageBox::about(nullptr, tr("About Windy"), tr(
 					"<center><big><b>Windy - Minimalistic weather indicator</b></big>"
-					"<p>Copyright &copy; 2015 Arkadiusz Bokowy</p>"
+					"<p>Copyright &copy; 2015-2018 Arkadiusz Bokowy</p>"
 					"<p>This project is licensed under the terms of the MIT license.</p>"
 					"<p><a href=\"%1\">%1</a></p></center>").arg(WINDY_HOMEPAGE));
 		break;

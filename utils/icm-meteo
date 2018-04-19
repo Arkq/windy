@@ -1,0 +1,84 @@
+#!/bin/sh
+#
+# Show Numeric Weather Forecast for given location. Forecasts are
+# fetched from the ICM (Warsaw University).
+#
+# Copyright (c) 2015-2018 Arkadiusz Bokowy
+#
+# This file is a part of Windy.
+#
+# This project is licensed under the terms of the MIT license.
+
+# Default location: Warsaw
+LOCATION="Warsaw"
+LAT="52.22977"
+LNG="21.01178"
+
+DATE=`date '+%Y%m%d'`
+LANG="en"
+
+VIEWERS="feh display"
+for x in ${VIEWERS}; do
+	if hash ${x} 2>/dev/null; then
+		VIEWER=${x}
+		break
+	fi
+done
+
+while getopts "hd:l:v:" opt; do
+	case "$opt" in
+		h)
+			echo "usage: $(basename $0) [-d YYYYMMDD] [-l LANG] [-v VIEWER] [location]"
+			exit 0
+			;;
+		d)
+			DATE="${OPTARG}"
+			;;
+		l)
+			LANG="${OPTARG}"
+			;;
+		v)
+			VIEWER="${OPTARG}"
+			;;
+		*)
+			exit 1
+			;;
+	esac
+done
+shift $((OPTIND - 1))
+[ "${1}" = "--" ] && shift
+
+function failure() {
+	echo "$(basename $0): ${1}"
+	exit 1
+}
+
+if ! [ -z "${1}" ]; then
+	URL="https://maps.googleapis.com/maps/api/geocode/json?sensor=false&address=${1}"
+	RESP=$( curl -s "${URL}" |grep -m1 -A2 '"location"' )
+	test -z "${RESP}" && failure "geocoding failure: ${1}"
+
+	LOCATION="${1}"
+	LAT=$( echo ${RESP} |awk '{printf "%.2f", $6}' )
+	LNG=$( echo ${RESP} |awk '{printf "%.2f", $9}' )
+fi
+
+TITLE="${LOCATION} [${LAT} ${LNG}] (`date --date=${DATE} '+%d %B %Y'`)"
+echo ${TITLE}
+
+URL="http://www.meteo.pl/um/php/mgram_search.php?NALL=${LAT}&EALL=${LNG}&fdate=${DATE}00&lang=${LANG}"
+RESP=$( curl -s -o /dev/null -w %{redirect_url} "${URL}" |awk -F? '{print $2}' )
+test -z "${RESP}" && failure "location beyond model's grid: ${LAT} ${LNG}"
+
+URL="http://www.meteo.pl/um/metco/mgram_pict.php?${RESP}"
+case ${VIEWER} in
+	display)
+		exec display -title "${TITLE}" "${URL}"
+		;;
+	feh)
+		exec feh --no-menus --title "${TITLE}" "${URL}"
+		;;
+	*)
+		echo ${URL}
+		;;
+esac
